@@ -1,6 +1,6 @@
 package "git"
 
-sprout_osx_base_bash_it_custom_plugin "git-export_editor.bash"
+sprout_base_bash_it_custom_plugin "git-export_editor.bash"
 git_global_config = node['sprout']['git']['global_config']
 
 template "#{node['sprout']['home']}/.gitignore_global" do
