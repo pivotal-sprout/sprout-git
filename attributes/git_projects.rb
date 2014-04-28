@@ -1,4 +1,4 @@
 node.default['sprout']['git']['projects'] = [
-  # ["example_name", "git@github.com/foo"]
+  ['sprout-git', 'https://github.com/pivotal-sprout/sprout-git.git']
 ]
 node.default['sprout']['git']['workspace_directory'] = 'workspace'
