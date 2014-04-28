@@ -1,5 +1,5 @@
 name             'sprout-git'
-maintainer       'Pivotal Labs'
+maintainer       'Pivotal'
 maintainer_email 'sprout-maintainers@pivotallabs.com'
 license          'MIT'
 description      'Installs/Configures sprout-git'
