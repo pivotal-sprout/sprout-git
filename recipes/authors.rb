@@ -2,5 +2,5 @@
 
 template "#{node['sprout']['home']}/.git-authors" do
   owner node['current_user']
-  source "authors.yml.erb"
+  source 'authors.yml.erb'
 end

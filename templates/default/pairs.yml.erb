@@ -1,0 +1,12 @@
+# This file is managed by sprout
+
+pairs:
+<% node['sprout']['git']['authors'].each do |author| %>
+  <%= "#{author["initials"]}: #{author["author"]}"%><%= author["username"] ? "; #{author["username"]}" : "" %>
+<% end %>
+
+email:
+  prefix: <%= node['sprout']['git']['prefix'] %>
+  domain: <%= node['sprout']['git']['domain'] %>
+
+global: true

@@ -1,19 +1,20 @@
-include_recipe "sprout-base::user_owns_usr_local"
+include_recipe 'sprout-base::user_owns_usr_local'
 
-execute "put git-scripts in /usr/local/bin" do
-  command "cd /usr/local/bin && curl -L http://github.com/pivotal/git_scripts/tarball/master | gunzip | tar xvf - --strip=2"
+tarball_url = 'https://github.com/pivotal/git_scripts/tarball/master'
+src_path = File.join(Chef::Config['file_cache_path'], 'git_scripts.tgz')
+extract_path = '/usr/local/bin'
+
+remote_file src_path do
+  source tarball_url
+end
+
+execute "tar --strip=2 -xzf #{src_path} -C #{extract_path}" do
   user node['current_user']
-  not_if "which git-pair"
+  not_if 'which git-pair'
 end
 
 template "#{node['sprout']['home']}/.pairs" do
+  action :create_if_missing
   owner node['current_user']
-  source "git_scripts_pairs.erb"
+  source 'pairs.yml.erb'
 end
-
-ruby_block "test that git pair works" do
-  block do
-    raise "git pair doesn't work" if `which git-pair`.empty?
-  end
-end
-

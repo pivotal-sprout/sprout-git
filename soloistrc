@@ -1,2 +1,12 @@
 recipes:
   - sprout-git
+  - sprout-git::git_scripts
+  - sprout-git::projects
+
+node_attributes:
+  sprout:
+    git:
+      projects:
+        -
+          - sprout-git
+          - https://github.com/pivotal-sprout/sprout-git.git
