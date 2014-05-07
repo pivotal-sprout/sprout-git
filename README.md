@@ -24,12 +24,14 @@ bundle exec soloist
 
 *NOTE:* All preferences are namespaced under `sprout => git` they include:
 
-* `prefix` &mdash; the email prefix to used by git-pair ; default is `pair`
-* `domain` &mdash; email address domain to be used by git-pair ; default is `example.com`
-* `authors` &mdash; a list of authors to install either into the ~/.pairs or ~/.git-authors files ; default is _2 example sprout maintainers to use as a reference_
-* `global_config` A set of configurations to be installed globally by the `global_config` recipe. &mdash; ; _see [config.rb](attributes/config.rb)_
-* `projects` &mdash; The list of repositories to automatically clone into the `workspace_directory`. Used by the `projects` recipe ; default is the [sprout-git](https://github.com/pivotal-sprout/sprout-git.git) repository
-* `workspace_directory` &mdash; the location under the users home to clone the projects. Used by the `projects` recipe ; default is `workspace`
+* `prefix` &mdash; the email prefix to used by git-pair &mdash; default is `pair`
+* `domain` &mdash; email address domain to be used by git-pair &mdash; default is `example.com`
+* `authors` &mdash; a list of authors to install either into the ~/.pairs or ~/.git-authors files &mdash; default is _2 example sprout maintainers to use as a reference_
+* `global_config` A set of configurations to be installed globally by the `global_config` recipe. &mdash; _see [config.rb](attributes/config.rb)_
+* `base_aliases` A set of git aliases like `ci`,`br`, etc to install. Used by the `aliases` recipe &mdash; dfault is empty. _see the [soloistrc](soloistrc) or [aliases.rb](attributes/aliases.rb) files for examples._
+* `aliases` &mdash; an additional set of custom aliases to be installed in addition to the `base_aliases`. Used by the `aliases` recipe &mdash; dfault is empty. _see the [soloistrc](soloistrc) or [aliases.rb](attributes/aliases.rb) files for examples._
+* `projects` &mdash; The list of repositories to automatically clone into the `workspace_directory`. Used by the `projects` recipe &mdash; this is empty by default see the [soloistrc](soloistrc) or the [projects.rb](attributes/project.rb) files for examples
+* `workspace_directory` &mdash; the location under the users home to clone the projects. Used by the `projects` recipe &mdash; default is `workspace`
 
 ### Recipes
 
@@ -88,3 +90,4 @@ install.
 bundle
 bundle exec rake spec:integration
 ```
+
