@@ -1,5 +1,6 @@
 recipes:
   - sprout-git
+  - sprout-git::default_editor
   - sprout-git::git_scripts
   - sprout-git::projects
 
