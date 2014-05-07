@@ -12,10 +12,6 @@ describe 'sprout-git::default' do
     expect(runner).to include_recipe('sprout-git::install')
   end
 
-  it 'includes the default_editor recipe' do
-    expect(runner).to include_recipe('sprout-git::default_editor')
-  end
-
   it 'includes the global_ignore recipe' do
     expect(runner).to include_recipe('sprout-git::global_ignore')
   end
