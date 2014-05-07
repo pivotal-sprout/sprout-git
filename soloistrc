@@ -11,6 +11,17 @@ node_attributes:
       aliases:
         - cpp foo-bar-baz
         - cfbb "commit --foo bar baz"
+      domain: pivotallabs.com
+      prefix: pair
+      authors:
+        - initials: ah
+          name: Abhi Hiremagalur
+          email: abhijit@hiremaga.com
+        - initials: bc
+          name: Brian Cunnie
+          username: cunnie
+        - initials: jrhb
+          name: Jonathan Barnes
       projects:
         -
           - sprout-git
