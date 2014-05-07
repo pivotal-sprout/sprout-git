@@ -8,6 +8,9 @@ recipes:
 node_attributes:
   sprout:
     git:
+      aliases:
+        - cpp foo-bar-baz
+        - cfbb "commit --foo bar baz"
       projects:
         -
           - sprout-git
