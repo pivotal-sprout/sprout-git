@@ -2,7 +2,7 @@
 
 pairs:
 <% node['sprout']['git']['authors'].each do |author| %>
-  <%= "#{author["initials"]}: #{author["author"]}"%><%= author["username"] ? "; #{author["username"]}" : "" %>
+  <%= "#{author["initials"]}: #{author["name"]}"%><%= author["username"] ? "; #{author["username"]}" : "" %>
 <% end %>
 
 email:
