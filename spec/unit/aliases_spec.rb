@@ -19,8 +19,8 @@ describe 'sprout-git::aliases' do
 
   it 'installs git aliases' do
     chef_run.converge(described_recipe)
-    expect(chef_run).to run_execute('git config --global alias.foo "bar baz"').with(:user => 'fauxhai')
-    expect(chef_run).to run_execute('git config --global alias.bar "baz bat"').with(:user => 'fauxhai')
+    expect(chef_run).to run_execute('git config --global alias.foo "bar baz"').with(user: 'fauxhai')
+    expect(chef_run).to run_execute('git config --global alias.bar "baz bat"').with(user: 'fauxhai')
   end
 
   context 'when the alias exists' do
@@ -33,7 +33,7 @@ describe 'sprout-git::aliases' do
 
     it 'does install missing entries' do
       chef_run.converge(described_recipe)
-      expect(chef_run).to run_execute('git config --global alias.bar "baz bat"').with(:user => 'fauxhai')
+      expect(chef_run).to run_execute('git config --global alias.bar "baz bat"').with(user: 'fauxhai')
     end
   end
 
@@ -46,10 +46,10 @@ describe 'sprout-git::aliases' do
 
     it 'installs the custom aliases as well' do
       chef_run.converge(described_recipe)
-      expect(chef_run).to run_execute('git config --global alias.foo "bar baz"').with(:user => 'fauxhai')
-      expect(chef_run).to run_execute('git config --global alias.bar "baz bat"').with(:user => 'fauxhai')
-      expect(chef_run).to run_execute('git config --global alias.one custom').with(:user => 'fauxhai')
-      expect(chef_run).to run_execute('git config --global alias.other custom').with(:user => 'fauxhai')
+      expect(chef_run).to run_execute('git config --global alias.foo "bar baz"').with(user: 'fauxhai')
+      expect(chef_run).to run_execute('git config --global alias.bar "baz bat"').with(user: 'fauxhai')
+      expect(chef_run).to run_execute('git config --global alias.one custom').with(user: 'fauxhai')
+      expect(chef_run).to run_execute('git config --global alias.other custom').with(user: 'fauxhai')
     end
   end
 end
