@@ -9,7 +9,7 @@ node_attributes:
   sprout:
     git:
       aliases:
-        - cpp foo-bar-baz
+        - ci pair-commit
         - cfbb "commit --foo bar baz"
       domain: pivotallabs.com
       prefix: pair

@@ -15,3 +15,6 @@ LineLength:
 
 Blocks:
   Enabled: false # For multi-line expect { ... }.to blah { ... }
+
+IndentHash:
+  Enabled: false
