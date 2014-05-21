@@ -37,6 +37,29 @@ describe 'sprout-git recipes' do
     expect(File).to exist(filename)
   end
 
+  it 'default_editor: installs the git-export_editor script into bashit' do
+    template_filename = File.expand_path('./templates/default/git-export_editor.bash')
+    expect(`diff ~/.bash_it/custom/git-export_editor.bash #{template_filename}`)
+  end
+
+  it 'authors: installs a ~/.git-authors file properly' do
+    filename = File.expand_path '~/.git-authors'
+    expect(File).to exist(filename)
+    expect(YAML.load_file(filename)).to eq(
+      'authors' => {
+        'jrhb' => 'Jonathan Barnes',
+        'bc' => 'Brian Cunnie; cunnie',
+        'ah' => 'Abhi Hiremagalur'
+      },
+      'email' => {
+        'domain' => 'pivotallabs.com'
+      },
+      'email_addresses' => {
+        'ah' => 'abhijit@hiremaga.com'
+      }
+    )
+  end
+
   it 'git_scripts: install pivotal git pair' do
     expect(`which git-pair`).not_to be_empty
   end
@@ -58,21 +81,12 @@ describe 'sprout-git recipes' do
     )
   end
 
-  it 'authors: installs a ~/.git-authors file properly' do
-    filename = File.expand_path '~/.git-authors'
-    expect(File).to exist(filename)
-    expect(YAML.load_file(filename)).to eq(
-      'authors' => {
-        'jrhb' => 'Jonathan Barnes',
-        'bc' => 'Brian Cunnie; cunnie',
-        'ah' => 'Abhi Hiremagalur'
-      },
-      'email' => {
-        'domain' => 'pivotallabs.com'
-      },
-      'email_addresses' => {
-        'ah' => 'abhijit@hiremaga.com'
-      }
-    )
+  it 'projects: clones the projects into the workspace' do
+    path = File.expand_path('~/workspace/git-sprout')
+    expect(File.directory?(path)).to eq(true)
+    expect(File.directory?(path + '/.git')).to eq(true)
   end
+
+  it 'projects: sets masters upstream branch to origin/master'
+  it 'projects: initializes any submodules'
 end
