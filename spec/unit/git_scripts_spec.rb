@@ -8,6 +8,11 @@ describe 'sprout-git::git_scripts' do
   end
   before { stub_command('which git-pair').and_return(which_pair) }
 
+  it 'includes sprout-base::user_owns_usr_local' do
+    chef_run.converge(described_recipe)
+    expect(chef_run).to include_recipe('sprout-base::user_owns_usr_local')
+  end
+
   it 'downloads git_scripts as a tarball' do
     chef_run.converge(described_recipe)
     expect(chef_run).to create_remote_file('/var/chef/cache/git_scripts.tgz').with(
