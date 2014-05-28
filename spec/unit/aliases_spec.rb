@@ -26,7 +26,7 @@ describe 'sprout-git::aliases' do
   context 'when the alias exists' do
     let(:foo_missing) { false }
 
-    it 'does not try to re-nstall it' do
+    it 'does not try to re-install it' do
       chef_run.converge(described_recipe)
       expect(chef_run).to_not run_execute('git config --global alias.foo "bar baz"')
     end

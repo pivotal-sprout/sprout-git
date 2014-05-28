@@ -32,12 +32,12 @@ describe 'sprout-git recipes' do
     expect(`git config --get-all color.branch`.strip).to eq('auto')
   end
 
-  it 'git_ignore: adds a global git ignroe' do
+  it 'git_ignore: adds a global git ignore' do
     filename = File.expand_path('~/.gitignore_global')
     expect(File).to exist(filename)
   end
 
-  it 'default_editor: installs the git-export_editor script into bashit' do
+  it 'default_editor: installs the git-export_editor script into bash-it' do
     template_filename = File.expand_path('./templates/default/git-export_editor.bash')
     expect(`diff ~/.bash_it/custom/git-export_editor.bash #{template_filename}`)
   end
