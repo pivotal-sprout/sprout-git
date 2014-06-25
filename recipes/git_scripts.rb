@@ -14,7 +14,6 @@ execute "tar --strip=2 -xzf #{src_path} -C #{extract_path}" do
 end
 
 template "#{node['sprout']['home']}/.pairs" do
-  action :create_if_missing
   owner node['current_user']
   source 'pairs.yml.erb'
 end

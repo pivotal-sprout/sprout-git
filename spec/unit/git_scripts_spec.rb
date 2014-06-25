@@ -25,7 +25,7 @@ describe 'sprout-git::git_scripts' do
     expect(chef_run).to run_execute(untar_command).with(user: 'fauxhai')
   end
 
-  context 'when the git scripts have prevoiusly been installed' do
+  context 'when the git scripts have previously been installed' do
     let(:which_pair) { '/path/to/git-pair' }
 
     it 'does not install the git scripts' do
@@ -42,20 +42,25 @@ describe 'sprout-git::git_scripts' do
     ]
     chef_run.node.set['sprout']['git']['domain'] = 'default.example.com'
     chef_run.node.set['sprout']['git']['prefix'] = 'lord'
-
     chef_run.converge(described_recipe)
     expected = <<-EOF
 pairs:
-  eg: El Gringo
-  hh: Hagar the Horrible
-  lg: Lady Godiva; lgodiva
+eg: El Gringo
+hh: Hagar the Horrible
+lg: Lady Godiva; lgodiva
 
 email:
-  prefix: lord
-  domain: default.example.com
+prefix: lord
+domain: default.example.com
 
 global: true
 EOF
     expect(chef_run).to render_file('/home/fauxhai/.pairs').with_content(/#{expected}/)
+  end
+
+  it 'overwrites the pairs file if it already exists' do
+    chef_run.converge(described_recipe)
+    expect(chef_run).to create_template('/home/fauxhai/.pairs')
+    expect(chef_run).to_not create_template_if_missing('/home/fauxhai/.pairs')
   end
 end
