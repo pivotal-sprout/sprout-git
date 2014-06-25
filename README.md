@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/pivotal-sprout/sprout-git.svg?branch=master)](https://travis-ci.org/pivotal-sprout/sprout-git)
 
-Recipes to install git related tools on OS X Mountain Lion.
+Recipes to install git related tools on OS X.
 
 ## Usage
 
@@ -35,15 +35,15 @@ bundle exec soloist
 
 ### Recipes
 
-1. `sprout-git` &mdash; default recipe
-1. `sprout-git::aliases` &mdash; installs common git aliases such as `git st`
-1. `sprout-git::authors` &mdash; install ~/.git-authors file used by [git-duet](https://github.com/modcloth/git-duet) ; _**note:** this is not in the default recipe_
-1. `sprout-git::default_editor` &mdash; installs [bash-it](https://github.com/revans/bash-it) plugin to set default git editor
-1. `sprout-git::git_scripts` &mdash; installs pivotal [git_scripts] onto to the system using system ruby ; _**note:** this is not in the default recipe_
-1. `sprout-git::global_config` &mdash; adds global git configurations defined by the `sprout => git => global_config` node attributes
-1. `sprout-git::global_ignore` &mdash; adds basic global git ignore file
-1. `sprout-git::install` &mdash; install git using [homebrew](http://brew.sh)
-1. `sprout-git::projects` &mdash; clones all projects defined byt the `sprout => git => projects` node attribute ; _**note:** this is not in the default recipe_
+* `sprout-git` &mdash; default recipe
+* `sprout-git::aliases` &mdash; installs common git aliases such as `git st`
+* `sprout-git::authors` &mdash; install ~/.git-authors file used by [git-duet](https://github.com/modcloth/git-duet) ; _**note:** this is not in the default recipe_
+* `sprout-git::default_editor` &mdash; installs [bash-it](https://github.com/revans/bash-it) plugin to set default git editor
+* `sprout-git::git_scripts` &mdash; installs pivotal [git_scripts] onto to the system using system ruby.  Also installs/overwrites the ~/.pairs file. ; _**note:** this is not in the default recipe_
+* `sprout-git::global_config` &mdash; adds global git configurations defined by the `sprout => git => global_config` node attributes
+* `sprout-git::global_ignore` &mdash; adds basic global git ignore file
+* `sprout-git::install` &mdash; install git using [homebrew](http://brew.sh)
+* `sprout-git::projects` &mdash; clones all projects defined byt the `sprout => git => projects` node attribute ; _**note:** this is not in the default recipe_
 
 ## Contributing
 
