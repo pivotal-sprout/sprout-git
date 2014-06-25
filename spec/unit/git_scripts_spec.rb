@@ -45,13 +45,13 @@ describe 'sprout-git::git_scripts' do
     chef_run.converge(described_recipe)
     expected = <<-EOF
 pairs:
-eg: El Gringo
-hh: Hagar the Horrible
-lg: Lady Godiva; lgodiva
+  eg: El Gringo
+  hh: Hagar the Horrible
+  lg: Lady Godiva; lgodiva
 
 email:
-prefix: lord
-domain: default.example.com
+  prefix: lord
+  domain: default.example.com
 
 global: true
 EOF
