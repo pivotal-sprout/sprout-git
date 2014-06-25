@@ -1,43 +1,41 @@
 # Recipe to clone git repositories into the users workspace_directory
-#
-# Repositories should be defined as an array in the node_attributes section of
-# your `soloistrc` file. eg:
-#
-# node_attributes:
-#   sprout:
-#     git:
-#       projects:
-#         -
-#           - repository-name (folder to be checked out into within your workspace folder)
-#           - repository-url (source url)
-#         -
-#           - rails
-#           - git@github.com:rails/rails.git
-#         -
-#           - hubot
-#           - git@github.com:github/hubot.git
-#
+# look at soloistrc for example
 
 include_recipe 'sprout-base::workspace_directory'
 
-node['sprout']['git']['projects'].each do |repo_name, repo_address, repo_dir|
+node['sprout']['git']['projects'].each do |hash_or_legacy_array|
+  if hash_or_legacy_array.is_a?(Hash)
+    project_hash = hash_or_legacy_array
+    repo_address = project_hash['url']
+    repo_name = project_hash['name'] || %r{^.+\/([^\/\.]+)(?:\.git)?$}.match(repo_address)[1]
+    repo_dir = project_hash['workspace_path']
+  else
+    legacy_array = hash_or_legacy_array
+    repo_name = legacy_array[0]
+    repo_address = legacy_array[1]
+  end
+  repo_dir ||= "#{node['sprout']['home']}/#{node['sprout']['git']['workspace_directory']}"
+  repo_dir = File.expand_path(repo_dir)
 
-  # Allow the user to override the working directory
-  repo_dir ||= node['sprout']['git']['workspace_directory']
+  directory repo_dir do
+    owner node['current_user']
+    mode '0755'
+    action :create
+    recursive true
+  end
 
-  execute "clone #{repo_name}" do
-    command "git clone #{repo_address} #{repo_name}"
+  execute "git clone #{repo_address} #{repo_name}" do
     user node['current_user']
-    cwd "#{node['sprout']['home']}/#{repo_dir}/"
-    not_if { ::File.exist?("#{node['sprout']['home']}/#{repo_dir}/#{repo_name}") }
+    cwd repo_dir
+    not_if { ::File.exist?("#{repo_dir}/#{repo_name}") }
   end
 
   ['git branch --set-upstream master origin/master',  'git submodule update --init --recursive'].each do |git_cmd|
     execute "#{repo_name} - #{git_cmd}" do
       command git_cmd
-      cwd "#{node['sprout']['home']}/#{repo_dir}/#{repo_name}"
+      cwd "#{repo_dir}/#{repo_name}"
       user node['current_user']
-      not_if { ::File.exist?("#{node['sprout']['home']}/#{repo_dir}/#{repo_name}") }
+      not_if { ::File.exist?("#{repo_dir}/#{repo_name}") }
     end
   end
 end

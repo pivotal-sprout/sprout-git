@@ -81,12 +81,30 @@ describe 'sprout-git recipes' do
     )
   end
 
-  it 'projects: clones the projects into the workspace' do
-    path = File.expand_path('~/workspace/git-sprout')
-    expect(File.directory?(path)).to eq(true)
-    expect(File.directory?(path + '/.git')).to eq(true)
+  def verify_cloned_project(path)
+    abs_path = File.expand_path(path)
+    expect(File.directory?(abs_path)).to eq(true)
+    expect(File.directory?(abs_path + '/.git')).to eq(true)
+    expect(`cd #{abs_path} && git br -avv|grep '^.\smaster'|awk '{print $4}'`.strip).to eq('[origin/master]')
   end
 
-  it 'projects: sets masters upstream branch to origin/master'
-  it 'projects: initializes any submodules'
+  it 'projects: clones the projects into the workspace using only url' do
+    verify_cloned_project('~/workspace/sprout-git')
+  end
+
+  it 'projects: clones the projects into the workspace using url, name' do
+    verify_cloned_project('~/workspace/git-repo')
+  end
+
+  it 'projects: clones the projects into the workspace using url, workspace_path' do
+    verify_cloned_project('/alt/ern/ate/path/sprout-git')
+  end
+
+  it 'projects: clones the projects into the workspace using url, name, workspace_path' do
+    verify_cloned_project('~/personal_projects/foo')
+  end
+
+  it 'projects: clones the projects into the workspace using legacy support' do
+    verify_cloned_project('~/workspace/foo')
+  end
 end

@@ -23,6 +23,23 @@ node_attributes:
         - initials: jrhb
           name: Jonathan Barnes
       projects:
-        -
-          - git-sprout
+        - # e.g. ~/workspace/sprout-git
+          url: https://github.com/pivotal-sprout/sprout-git.git
+
+        - # e.g. ~/workspace/git-repo
+          url: https://github.com/pivotal-sprout/sprout-git.git
+          name: git-repo
+
+        - # e.g. /alt/ern/ate/path/sprout-git
+          url: https://github.com/pivotal-sprout/sprout-git.git
+          workspace_path: '/alt/ern/ate/path'
+
+        - # e.g. ~/personal_projects/foo  ~/personal_projects/foo
+          url: https://github.com/pivotal-sprout/sprout-git.git
+          workspace_path: '~/personal_projects'
+          name: foo
+
+        # legacy support
+        - # e.g. ~/workspace/foo
+          - foo
           - https://github.com/pivotal-sprout/sprout-git.git
