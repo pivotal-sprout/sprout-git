@@ -40,12 +40,10 @@ node['sprout']['git']['projects'].each do |hash_or_legacy_array|
     end
   end
 
-  ['git branch --set-upstream master origin/master',  'git submodule update --init --recursive'].each do |git_cmd|
-    execute "#{repo_name} - #{git_cmd}" do
-      command git_cmd
-      cwd "#{repo_dir}/#{repo_name}"
-      user node['current_user']
-      not_if { ::File.exist?("#{repo_dir}/#{repo_name}") }
-    end
+  execute "#{repo_name} - git submodule update --init --recursive" do
+    command 'git submodule update --init --recursive'
+    cwd "#{repo_dir}/#{repo_name}"
+    user node['current_user']
+    not_if { ::File.exist?("#{repo_dir}/#{repo_name}") }
   end
 end

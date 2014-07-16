@@ -22,11 +22,6 @@ describe 'sprout-git::projects' do
       user: 'fauxhai',
       cwd: '/home/fauxhai/some_workspace'
     )
-    expect(chef_run).to run_execute('git branch --set-upstream master origin/master').with(
-      user: 'fauxhai',
-      cwd: '/home/fauxhai/some_workspace/repo1'
-    )
-
     expect(chef_run).to run_execute('git clone http://example.com/some/repo2 repo2').with(
       user: 'fauxhai',
       cwd: '/home/fauxhai/some_workspace'
@@ -45,10 +40,6 @@ describe 'sprout-git::projects' do
       user: 'fauxhai',
       cwd: '/home/fauxhai/some_workspace'
     )
-    expect(chef_run).to run_execute('git branch --set-upstream master origin/master').with(
-      user: 'fauxhai',
-      cwd: '/home/fauxhai/some_workspace/custom'
-    )
   end
 
   it 'can clone projects into an absolute custom directory' do
@@ -62,10 +53,6 @@ describe 'sprout-git::projects' do
     expect(chef_run).to run_execute('git clone http://example.com/some/repo1.git repo1').with(
       user: 'fauxhai',
       cwd: '/some/non-home-based/workspace'
-    )
-    expect(chef_run).to run_execute('git branch --set-upstream master origin/master').with(
-      user: 'fauxhai',
-      cwd: '/some/non-home-based/workspace/repo1'
     )
   end
 
@@ -83,10 +70,6 @@ describe 'sprout-git::projects' do
     expect(chef_run).to run_execute('git clone http://example.com/some/repo1.git repo1').with(
       user: 'fauxhai',
       cwd: '/home/fauxhai/personal_projects'
-    )
-    expect(chef_run).to run_execute('git branch --set-upstream master origin/master').with(
-      user: 'fauxhai',
-      cwd: '/home/fauxhai/personal_projects/repo1'
     )
   end
 
@@ -161,10 +144,6 @@ describe 'sprout-git::projects' do
     expect(chef_run).to run_execute('git clone http://example.com/some/repo1.git renamed').with(
       user: 'fauxhai',
       cwd: '/home/fauxhai/some_workspace'
-    )
-    expect(chef_run).to run_execute('git branch --set-upstream master origin/master').with(
-      user: 'fauxhai',
-      cwd: '/home/fauxhai/some_workspace/renamed'
     )
   end
 end
