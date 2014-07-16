@@ -39,6 +39,14 @@ node_attributes:
           workspace_path: '~/personal_projects'
           name: foo
 
+        - # with a post_clone hook
+          url: https://github.com/pivotal-sprout/sprout-git.git
+          name: with-post-clone
+          post_clone_commands:
+            - 'touch touched.txt'
+            - false
+            - 'echo "hello" > world.txt'
+
         # legacy support
         - # e.g. ~/workspace/foo
           - foo
