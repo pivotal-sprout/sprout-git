@@ -45,7 +45,7 @@ node_attributes:
           post_clone_commands:
             - 'touch touched.txt'
             - false
-            - 'echo "hello" > world.txt'
+            - 'echo "hello" >> world.txt'
 
         # legacy support
         - # e.g. ~/workspace/foo

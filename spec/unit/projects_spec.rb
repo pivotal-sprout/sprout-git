@@ -145,5 +145,11 @@ describe 'sprout-git::projects' do
       user: 'fauxhai',
       cwd: '/home/fauxhai/some_workspace'
     )
+
+    expect(chef_run).to run_execute('git submodule update --init --recursive').with(
+      user: 'fauxhai',
+      cwd: '/home/fauxhai/some_workspace/renamed',
+      ignore_failure: true
+    )
   end
 end
