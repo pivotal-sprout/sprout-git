@@ -4,11 +4,13 @@
 include_recipe 'sprout-base::workspace_directory'
 
 node['sprout']['git']['projects'].each do |hash_or_legacy_array|
+  post_clone_commands = []
   if hash_or_legacy_array.is_a?(Hash)
     project_hash = hash_or_legacy_array
     repo_address = project_hash['url']
     repo_name = project_hash['name'] || %r{^.+\/([^\/\.]+)(?:\.git)?$}.match(repo_address)[1]
     repo_dir = project_hash['workspace_path']
+    post_clone_commands = project_hash['post_clone_commands'] || []
   else
     legacy_array = hash_or_legacy_array
     repo_name = legacy_array[0]
@@ -28,6 +30,14 @@ node['sprout']['git']['projects'].each do |hash_or_legacy_array|
     user node['current_user']
     cwd repo_dir
     not_if { ::File.exist?("#{repo_dir}/#{repo_name}") }
+  end
+
+  post_clone_commands.each do |post_clone_command|
+    execute post_clone_command do
+      user node['current_user']
+      cwd "#{repo_dir}/#{repo_name}"
+      ignore_failure true
+    end
   end
 
   ['git branch --set-upstream master origin/master',  'git submodule update --init --recursive'].each do |git_cmd|

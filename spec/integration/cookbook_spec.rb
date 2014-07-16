@@ -83,8 +83,8 @@ describe 'sprout-git recipes' do
 
   def verify_cloned_project(path)
     abs_path = File.expand_path(path)
-    expect(File.directory?(abs_path)).to eq(true)
-    expect(File.directory?(abs_path + '/.git')).to eq(true)
+    expect(File).to be_directory(abs_path)
+    expect(File).to be_directory("#{abs_path}/.git")
     expect(`cd #{abs_path} && git br -avv|grep '^.\smaster'|awk '{print $4}'`.strip).to eq('[origin/master]')
   end
 
@@ -102,6 +102,15 @@ describe 'sprout-git recipes' do
 
   it 'projects: clones the projects into the workspace using url, name, workspace_path' do
     verify_cloned_project('~/personal_projects/foo')
+  end
+
+  it 'projects: runs a post-clone command to create a file' do
+    verify_cloned_project('~/workspace/with-post-clone')
+    expect(File).to exist(File.expand_path('~/workspace/with-post-clone/touched.txt'))
+    world_file = File.expand_path('~/workspace/with-post-clone/world.txt')
+    expect(File).to exist(world_file)
+    f = File.open(world_file, 'rb')
+    expect(f.read).to eq("hello\n")
   end
 
   it 'projects: clones the projects into the workspace using legacy support' do

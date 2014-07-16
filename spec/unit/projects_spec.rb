@@ -123,6 +123,36 @@ describe 'sprout-git::projects' do
     )
   end
 
+  it 'execute post-clone commands' do
+    chef_run.node.set['sprout']['git']['projects'] = [
+      {
+        'url' => "#{repo_base_url}1.git",
+        'post_clone_commands' => [
+          '/foo/bar baz',
+          'something else'
+        ]
+      }
+    ]
+    chef_run.converge(described_recipe)
+
+    expect(chef_run).to run_execute('git clone http://example.com/some/repo1.git repo1').with(
+      user: 'fauxhai',
+      cwd: '/home/fauxhai/some_workspace'
+    )
+
+    expect(chef_run).to run_execute('/foo/bar baz').with(
+      user: 'fauxhai',
+      cwd: '/home/fauxhai/some_workspace/repo1',
+      ignore_failure: true
+    )
+
+    expect(chef_run).to run_execute('something else').with(
+      user: 'fauxhai',
+      cwd: '/home/fauxhai/some_workspace/repo1',
+      ignore_failure: true
+    )
+  end
+
   it 'supports legacy attribute syntax' do
     chef_run.node.set['sprout']['git']['projects'] = [
       ['renamed', 'http://example.com/some/repo1.git']
