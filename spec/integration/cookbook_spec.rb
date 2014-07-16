@@ -5,6 +5,7 @@ describe 'sprout-git recipes' do
   before :all do
     expect(`which git-pair`).to be_empty
     expect(system('soloist')).to be_true
+    expect(system('soloist')).to be_true
   end
 
   it 'install: installs git via homebrew' do

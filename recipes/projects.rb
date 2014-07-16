@@ -15,6 +15,7 @@ node['sprout']['git']['projects'].each do |hash_or_legacy_array|
     legacy_array = hash_or_legacy_array
     repo_name = legacy_array[0]
     repo_address = legacy_array[1]
+    post_clone_commands << 'git submodule update --init --recursive'
   end
   repo_dir ||= "#{node['sprout']['home']}/#{node['sprout']['git']['workspace_directory']}"
   repo_dir = File.expand_path(repo_dir)
@@ -25,6 +26,7 @@ node['sprout']['git']['projects'].each do |hash_or_legacy_array|
     action :create
     recursive true
   end
+  repo_existed_originally = ::File.exist?("#{repo_dir}/#{repo_name}")
 
   execute "git clone #{repo_address} #{repo_name}" do
     user node['current_user']
@@ -37,13 +39,7 @@ node['sprout']['git']['projects'].each do |hash_or_legacy_array|
       user node['current_user']
       cwd "#{repo_dir}/#{repo_name}"
       ignore_failure true
+      not_if { repo_existed_originally }
     end
-  end
-
-  execute "#{repo_name} - git submodule update --init --recursive" do
-    command 'git submodule update --init --recursive'
-    cwd "#{repo_dir}/#{repo_name}"
-    user node['current_user']
-    not_if { ::File.exist?("#{repo_dir}/#{repo_name}") }
   end
 end
