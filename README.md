@@ -149,5 +149,3 @@ install.
 bundle
 bundle exec rake spec:integration
 ```
-
-foo
