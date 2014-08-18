@@ -11,7 +11,7 @@ node_attributes:
       aliases:
         - ci pair-commit
         - cfbb "commit --foo bar baz"
-      domain: pivotallabs.com
+      domain: pivotal.io
       prefix: pair
       authors:
         - initials: ah
