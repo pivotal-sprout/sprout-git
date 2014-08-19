@@ -12,7 +12,7 @@ node_attributes:
         - ci pair-commit
         - cfbb "commit --foo bar baz"
       domain: pivotallabs.com
-      prefix: pair
+      prefix: labs-pair
       authors:
         - initials: ah
           name: Abhi Hiremagalur
