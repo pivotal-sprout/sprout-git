@@ -21,7 +21,7 @@ node['sprout']['git']['projects'].each do |hash_or_legacy_array|
   repo_dir = File.expand_path(repo_dir)
 
   directory repo_dir do
-    owner node['current_user']
+    owner node['sprout']['user']
     mode '0755'
     action :create
     recursive true
@@ -29,14 +29,14 @@ node['sprout']['git']['projects'].each do |hash_or_legacy_array|
   repo_existed_originally = ::File.exist?("#{repo_dir}/#{repo_name}")
 
   execute "git clone #{repo_address} #{repo_name}" do
-    user node['current_user']
+    user node['sprout']['user']
     cwd repo_dir
     not_if { ::File.exist?("#{repo_dir}/#{repo_name}") }
   end
 
   post_clone_commands.each do |post_clone_command|
     execute post_clone_command do
-      user node['current_user']
+      user node['sprout']['user']
       cwd "#{repo_dir}/#{repo_name}"
       ignore_failure true
       not_if { repo_existed_originally }

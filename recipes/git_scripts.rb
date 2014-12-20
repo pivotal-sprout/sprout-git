@@ -9,11 +9,11 @@ remote_file src_path do
 end
 
 execute "tar --strip=2 -xzf #{src_path} -C #{extract_path}" do
-  user node['current_user']
+  user node['sprout']['user']
   not_if 'which git-pair'
 end
 
 template "#{node['sprout']['home']}/.pairs" do
-  owner node['current_user']
+  owner node['sprout']['user']
   source 'pairs.yml.erb'
 end
