@@ -75,7 +75,7 @@ describe 'sprout-git recipes' do
         'ah' => 'Abhi Hiremagalur'
       },
       'email' => {
-        'prefix' => 'pair',
+        'prefix' => 'labs-pair',
         'domain' => 'pivotallabs.com'
       },
       'global' => true
