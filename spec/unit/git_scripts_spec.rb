@@ -53,6 +53,9 @@ email:
   prefix: lord
   domain: default.example.com
 
+email_addresses:
+  eg: gringo@custom.example.com
+
 global: true
 EOF
     expect(chef_run).to render_file('/home/fauxhai/.pairs').with_content(/#{expected}/)
