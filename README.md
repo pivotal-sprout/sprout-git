@@ -20,6 +20,9 @@ bundle exec soloist
 
 ### Recent changes:
 
+* #### Adds git_duet_global recipe:
+  this will add a custom bash_it plugin that causes git-duet to set global git properties. see the [git-duet repo](https://github.com/meatballhat/git-duet)
+
 * #### the projects attributes have changed from an array of tuples:
   ```
   node_attributes:

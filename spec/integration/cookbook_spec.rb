@@ -43,6 +43,11 @@ describe 'sprout-git recipes' do
     expect(`diff ~/.bash_it/custom/git-export_editor.bash #{template_filename}`)
   end
 
+  it 'default_editor: installs the git-duet_global script into bash-it' do
+    template_filename = File.expand_path('./templates/default/git-duet_global.bash')
+    expect(`diff ~/.bash_it/custom/git-duet_global.bash #{template_filename}`)
+  end
+
   it 'authors: installs a ~/.git-authors file properly' do
     filename = File.expand_path '~/.git-authors'
     expect(File).to exist(filename)

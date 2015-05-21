@@ -1,6 +1,6 @@
 require 'unit/spec_helper'
 
-describe 'sprout-git::default_editor' do
+describe 'sprout-git::git_duet_global' do
   let(:chef_run) { ChefSpec::Runner.new }
 
   it 'includes sprout-base::bash_it' do
@@ -10,6 +10,6 @@ describe 'sprout-git::default_editor' do
 
   it 'installs a bash-it custom plugin' do
     chef_run.converge(described_recipe)
-    expect(chef_run).to create_bash_it_custom_plugin('bash_it/custom/git-export_editor.bash')
+    expect(chef_run).to create_bash_it_custom_plugin('bash_it/custom/git-duet_global.bash')
   end
 end
