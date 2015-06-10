@@ -83,6 +83,9 @@ describe 'sprout-git recipes' do
         'prefix' => 'pair',
         'domain' => 'pivotallabs.com'
       },
+      'email_addresses' => {
+        'ah' => 'abhijit@hiremaga.com'
+      },
       'global' => true
     )
   end

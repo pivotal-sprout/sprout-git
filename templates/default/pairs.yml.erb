@@ -9,4 +9,11 @@ email:
   prefix: <%= node['sprout']['git']['prefix'] %>
   domain: <%= node['sprout']['git']['domain'] %>
 
+email_addresses:
+<% node['sprout']['git']['authors'].each do |author| %>
+<% if author['email'] %>
+  <%= "#{author["initials"]}: #{author["email"]}"%>
+<% end %>
+<% end %>
+
 global: true
