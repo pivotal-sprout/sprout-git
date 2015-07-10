@@ -58,7 +58,7 @@ describe 'sprout-git recipes' do
         'ah' => 'Abhi Hiremagalur'
       },
       'email' => {
-        'domain' => 'pivotallabs.com'
+        'domain' => 'pivotal.io'
       },
       'email_addresses' => {
         'ah' => 'abhijit@hiremaga.com'
@@ -81,7 +81,7 @@ describe 'sprout-git recipes' do
       },
       'email' => {
         'prefix' => 'pair',
-        'domain' => 'pivotallabs.com'
+        'domain' => 'pivotal.io'
       },
       'email_addresses' => {
         'ah' => 'abhijit@hiremaga.com'
