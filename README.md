@@ -20,8 +20,14 @@ bundle exec soloist
 
 ### Recent changes:
 
+* #### Adds git_duet recipe:
+  This will install git-duet, which allows git commits to have multiple authors. See the [git-duet repo](https://github.com/git-duet/git-duet)
+
+* #### Adds git_duet_rotate_authors recipe:
+  This will add a custom bash_it plugin that causes git-duet to rotate which author is the committer.
+
 * #### Adds git_duet_global recipe:
-  this will add a custom bash_it plugin that causes git-duet to set global git properties. see the [git-duet repo](https://github.com/meatballhat/git-duet)
+  This will add a custom bash_it plugin that causes git-duet to set global git properties.
 
 * #### the projects attributes have changed from an array of tuples:
   ```
@@ -101,6 +107,9 @@ If the project needs to have submodules initialized then those entries should in
 * `sprout-git::aliases` &mdash; installs common git aliases such as `git st`
 * `sprout-git::authors` &mdash; install ~/.git-authors file used by [git-duet](https://github.com/modcloth/git-duet) ; _**note:** this is not in the default recipe_
 * `sprout-git::default_editor` &mdash; installs [bash-it](https://github.com/revans/bash-it) plugin to set default git editor
+* `sprout-git::git_duet` &mdash; installs git-duet, which allows git commits to have multiple authors. See the [git-duet repo](https://github.com/git-duet/git-duet) ; _**note:** this is not in the default recipe_
+* `sprout-git::git_duet_global` &mdash; installs a custom bash_it plugin that causes git-duet to set global git properties ; _**note:** this is not in the default recipe_
+* `sprout-git::git_duet_rotate_authors` &mdash; installs a custom bash_it plugin that causes git-duet to rotate which author is the committer ; _**note:** this is not in the default recipe_
 * `sprout-git::git_scripts` &mdash; installs pivotal [git_scripts] onto to the system using system ruby.  Also installs/overwrites the ~/.pairs file. ; _**note:** this is not in the default recipe_
 * `sprout-git::global_config` &mdash; adds global git configurations defined by the `sprout => git => global_config` node attributes
 * `sprout-git::global_ignore` &mdash; adds basic global git ignore file
@@ -152,5 +161,3 @@ install.
 bundle
 bundle exec rake spec:integration
 ```
-
-foo
