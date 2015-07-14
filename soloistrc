@@ -1,16 +1,14 @@
 recipes:
   - sprout-git
   - sprout-git::default_editor
-  - sprout-git::git_duet_global
-  - sprout-git::authors
-  - sprout-git::git_scripts
+  - sprout-git::git_duet
   - sprout-git::projects
 
 node_attributes:
   sprout:
     git:
       aliases:
-        - ci pair-commit
+        - ci duet-commit
         - cfbb "commit --foo bar baz"
       domain: pivotallabs.com
       prefix: pair
