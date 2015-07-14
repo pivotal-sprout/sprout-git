@@ -20,5 +20,5 @@ node.default['sprout']['git']['base_aliases'] = [
 ]
 
 node.default['sprout']['git']['aliases'] = [
-  # 'ci pair-commit'
+  # 'ci duet-commit'
 ]

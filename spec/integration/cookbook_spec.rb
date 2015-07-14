@@ -24,7 +24,7 @@ describe 'sprout-git recipes' do
   end
 
   it 'aliases: overrides base aliases with custom aliases if there is a collision' do
-    expect(`git config --get-all alias.ci`.strip).to eq('pair-commit')
+    expect(`git config --get-all alias.ci`.strip).to eq('duet-commit')
   end
 
   it 'global_config: installs global configurations' do
@@ -48,6 +48,11 @@ describe 'sprout-git recipes' do
     expect(`diff ~/.bash_it/custom/git-duet_global.bash #{template_filename}`)
   end
 
+  it 'default_editor: installs the git-duet_rotate_author script into bash-it' do
+    template_filename = File.expand_path('./templates/default/git-duet_rotate_author.bash')
+    expect(`diff ~/.bash_it/custom/git-duet_rotate_author.bash #{template_filename}`)
+  end
+
   it 'authors: installs a ~/.git-authors file properly' do
     filename = File.expand_path '~/.git-authors'
     expect(File).to exist(filename)
@@ -66,28 +71,8 @@ describe 'sprout-git recipes' do
     )
   end
 
-  it 'git_scripts: install pivotal git pair' do
-    expect(`which git-pair`).not_to be_empty
-  end
-
-  it 'git_scripts: installs a ~/.pairs file properly' do
-    filename = File.expand_path '~/.pairs'
-    expect(File).to exist(filename)
-    expect(YAML.load_file(filename)).to eq(
-      'pairs' => {
-        'jrhb' => 'Jonathan Barnes',
-        'bc' => 'Brian Cunnie; cunnie',
-        'ah' => 'Abhi Hiremagalur'
-      },
-      'email' => {
-        'prefix' => 'pair',
-        'domain' => 'pivotallabs.com'
-      },
-      'email_addresses' => {
-        'ah' => 'abhijit@hiremaga.com'
-      },
-      'global' => true
-    )
+  it 'git_scripts: install git-duet' do
+    expect(`which git-duet`).not_to be_empty
   end
 
   def verify_cloned_project(path)
