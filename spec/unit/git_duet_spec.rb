@@ -25,7 +25,7 @@ describe 'sprout-git::git_duet' do
 
   it 'taps git-duet/homebrew-tap' do
     chef_run.converge(described_recipe)
-    expect(chef_run).to tap_homebrew_tap('git-duet/homebrew-tap')
+    expect(chef_run).to tap_homebrew_tap('git-duet/tap')
   end
 
   it 'brew installs git-duet' do
