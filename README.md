@@ -20,6 +20,9 @@ bundle exec soloist
 
 ### Recent changes:
 
+* #### Support for new `brew tap` syntax
+  Brew has recently changed the output of each `brew tap` tap from "name-of-tap/homebrew-tap" to "name-of-tap/tap". If you getting an error adding custom taps, update your Cheffile.lock to use the latest sprout-git cookbook by using `librarian-chef update sprout-git`.
+
 * #### Adds git_duet recipe:
   This will install git-duet, which allows git commits to have multiple authors. See the [git-duet repo](https://github.com/git-duet/git-duet)
 
