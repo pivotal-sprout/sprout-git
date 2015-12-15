@@ -44,8 +44,8 @@ describe 'sprout-git::projects' do
 
   it 'can clone from github using github key instead of url' do
     chef_run.node.set['sprout']['git']['projects'] = [
-      { 'github' => "foo/bar" },
-      { 'github' => "baz/bat", 'name' => 'my_bat', 'branch' => 'other' }
+      { 'github' => 'foo/bar' },
+      { 'github' => 'baz/bat', 'name' => 'my_bat', 'branch' => 'other' }
     ]
     chef_run.converge(described_recipe)
     expect(chef_run).to run_execute('git clone -b master git@github.com:foo/bar.git bar').with(
@@ -60,11 +60,33 @@ describe 'sprout-git::projects' do
 
   it 'can clone using --recursive per project' do
     chef_run.node.set['sprout']['git']['projects'] = [
-      { 'github' => "foo/bar", 'recursive' => true },
-      { 'github' => "baz/bat", 'recursive' => true, 'name' => 'my_bat', 'branch' => 'other' }
+      { 'github' => 'foo/bar', 'recursive' => true },
+      { 'github' => 'baz/bat', 'recursive' => true, 'name' => 'my_bat', 'branch' => 'other' }
     ]
     chef_run.converge(described_recipe)
     expect(chef_run).to run_execute('git clone -b master --recursive git@github.com:foo/bar.git bar').with(
+      user: 'fauxhai',
+      cwd: '/home/fauxhai/some_workspace'
+    )
+    expect(chef_run).to run_execute('git clone -b other --recursive git@github.com:baz/bat.git my_bat').with(
+      user: 'fauxhai',
+      cwd: '/home/fauxhai/some_workspace'
+    )
+  end
+
+  it 'can clone using --recursive for all projectcs' do
+    chef_run.node.set['sprout']['git']['projects_settings'] = { 'recursive' => true }
+    chef_run.node.set['sprout']['git']['projects'] = [
+      { 'github' => 'foo/bar' },
+      { 'github' => 'quick/quack', 'recursive' => false },
+      { 'github' => 'baz/bat', 'name' => 'my_bat', 'branch' => 'other' }
+    ]
+    chef_run.converge(described_recipe)
+    expect(chef_run).to run_execute('git clone -b master --recursive git@github.com:foo/bar.git bar').with(
+      user: 'fauxhai',
+      cwd: '/home/fauxhai/some_workspace'
+    )
+    expect(chef_run).to run_execute('git clone -b master git@github.com:quick/quack.git quack').with(
       user: 'fauxhai',
       cwd: '/home/fauxhai/some_workspace'
     )

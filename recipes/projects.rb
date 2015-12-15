@@ -3,16 +3,21 @@
 
 include_recipe 'sprout-base::workspace_directory'
 
+settings_hash = node['sprout']['git']['projects_settings']
 node['sprout']['git']['projects'].each do |hash_or_legacy_array|
   post_clone_commands = []
   if hash_or_legacy_array.is_a?(Hash)
     project_hash = hash_or_legacy_array
-    repo_address = if project_hash['url']
-      project_hash['url']
+    if project_hash['url']
+      repo_address = project_hash['url']
     elsif project_hash['github']
-      "git@github.com:#{project_hash['github']}.git"
+      repo_address = "git@github.com:#{project_hash['github']}.git"
     end
-    do_recursive = "--recursive" if project_hash['recursive']
+    if project_hash['recursive'] != nil
+      do_recursive = '--recursive' if project_hash['recursive']
+    else
+      do_recursive = '--recursive' if settings_hash['recursive']
+    end
     repo_name = project_hash['name'] || %r{^.+\/([^\/\.]+)(?:\.git)?$}.match(repo_address)[1]
     repo_dir = project_hash['workspace_path']
     repo_branch = project_hash['branch'] || 'master'
