@@ -18,11 +18,11 @@ describe 'sprout-git::projects' do
       { 'url' => "#{repo_base_url}2" }
     ]
     chef_run.converge(described_recipe)
-    expect(chef_run).to run_execute('git clone http://example.com/some/repo1.git repo1').with(
+    expect(chef_run).to run_execute('git clone -b master http://example.com/some/repo1.git repo1').with(
       user: 'fauxhai',
       cwd: '/home/fauxhai/some_workspace'
     )
-    expect(chef_run).to run_execute('git clone http://example.com/some/repo2 repo2').with(
+    expect(chef_run).to run_execute('git clone -b master http://example.com/some/repo2 repo2').with(
       user: 'fauxhai',
       cwd: '/home/fauxhai/some_workspace'
     )
@@ -36,7 +36,75 @@ describe 'sprout-git::projects' do
       }
     ]
     chef_run.converge(described_recipe)
-    expect(chef_run).to run_execute('git clone http://example.com/some/repo1.git custom').with(
+    expect(chef_run).to run_execute('git clone -b master http://example.com/some/repo1.git custom').with(
+      user: 'fauxhai',
+      cwd: '/home/fauxhai/some_workspace'
+    )
+  end
+
+  it 'can clone from github using github key instead of url' do
+    chef_run.node.set['sprout']['git']['projects'] = [
+      { 'github' => 'foo/bar' },
+      { 'github' => 'baz/bat', 'name' => 'my_bat', 'branch' => 'other' }
+    ]
+    chef_run.converge(described_recipe)
+    expect(chef_run).to run_execute('git clone -b master git@github.com:foo/bar.git bar').with(
+      user: 'fauxhai',
+      cwd: '/home/fauxhai/some_workspace'
+    )
+    expect(chef_run).to run_execute('git clone -b other git@github.com:baz/bat.git my_bat').with(
+      user: 'fauxhai',
+      cwd: '/home/fauxhai/some_workspace'
+    )
+  end
+
+  it 'can clone using --recursive per project' do
+    chef_run.node.set['sprout']['git']['projects'] = [
+      { 'github' => 'foo/bar', 'recursive' => true },
+      { 'github' => 'baz/bat', 'recursive' => true, 'name' => 'my_bat', 'branch' => 'other' }
+    ]
+    chef_run.converge(described_recipe)
+    expect(chef_run).to run_execute('git clone -b master --recursive git@github.com:foo/bar.git bar').with(
+      user: 'fauxhai',
+      cwd: '/home/fauxhai/some_workspace'
+    )
+    expect(chef_run).to run_execute('git clone -b other --recursive git@github.com:baz/bat.git my_bat').with(
+      user: 'fauxhai',
+      cwd: '/home/fauxhai/some_workspace'
+    )
+  end
+
+  it 'can clone using --recursive for all projectcs' do
+    chef_run.node.set['sprout']['git']['projects_settings'] = { 'recursive' => true }
+    chef_run.node.set['sprout']['git']['projects'] = [
+      { 'github' => 'foo/bar' },
+      { 'github' => 'quick/quack', 'recursive' => false },
+      { 'github' => 'baz/bat', 'name' => 'my_bat', 'branch' => 'other' }
+    ]
+    chef_run.converge(described_recipe)
+    expect(chef_run).to run_execute('git clone -b master --recursive git@github.com:foo/bar.git bar').with(
+      user: 'fauxhai',
+      cwd: '/home/fauxhai/some_workspace'
+    )
+    expect(chef_run).to run_execute('git clone -b master git@github.com:quick/quack.git quack').with(
+      user: 'fauxhai',
+      cwd: '/home/fauxhai/some_workspace'
+    )
+    expect(chef_run).to run_execute('git clone -b other --recursive git@github.com:baz/bat.git my_bat').with(
+      user: 'fauxhai',
+      cwd: '/home/fauxhai/some_workspace'
+    )
+  end
+
+  it 'can clone custom branch of project if specified' do
+    chef_run.node.set['sprout']['git']['projects'] = [
+      {
+        'url' => "#{repo_base_url}1.git",
+        'branch' => 'develop'
+      }
+    ]
+    chef_run.converge(described_recipe)
+    expect(chef_run).to run_execute('git clone -b develop http://example.com/some/repo1.git repo1').with(
       user: 'fauxhai',
       cwd: '/home/fauxhai/some_workspace'
     )
@@ -50,7 +118,7 @@ describe 'sprout-git::projects' do
       }
     ]
     chef_run.converge(described_recipe)
-    expect(chef_run).to run_execute('git clone http://example.com/some/repo1.git repo1').with(
+    expect(chef_run).to run_execute('git clone -b master http://example.com/some/repo1.git repo1').with(
       user: 'fauxhai',
       cwd: '/some/non-home-based/workspace'
     )
@@ -67,7 +135,7 @@ describe 'sprout-git::projects' do
     allow(File).to receive(:expand_path).with('~/personal_projects').and_return('/home/fauxhai/personal_projects')
 
     chef_run.converge(described_recipe)
-    expect(chef_run).to run_execute('git clone http://example.com/some/repo1.git repo1').with(
+    expect(chef_run).to run_execute('git clone -b master http://example.com/some/repo1.git repo1').with(
       user: 'fauxhai',
       cwd: '/home/fauxhai/personal_projects'
     )
@@ -81,8 +149,8 @@ describe 'sprout-git::projects' do
     ::File.stub(:exist?).with(anything).and_call_original
     ::File.stub(:exist?).with('/home/fauxhai/some_workspace/repo1').and_return true
     chef_run.converge(described_recipe)
-    expect(chef_run).to_not run_execute('git clone http://example.com/some/repo1.git repo1')
-    expect(chef_run).to run_execute('git clone http://example.com/some/repo2 repo2')
+    expect(chef_run).to_not run_execute('git clone -b master http://example.com/some/repo1.git repo1')
+    expect(chef_run).to run_execute('git clone -b master http://example.com/some/repo2 repo2')
   end
 
   it 'creates the workspace if it is missing' do
@@ -118,7 +186,7 @@ describe 'sprout-git::projects' do
     ]
     chef_run.converge(described_recipe)
 
-    expect(chef_run).to run_execute('git clone http://example.com/some/repo1.git repo1').with(
+    expect(chef_run).to run_execute('git clone -b master http://example.com/some/repo1.git repo1').with(
       user: 'fauxhai',
       cwd: '/home/fauxhai/some_workspace'
     )
@@ -141,7 +209,7 @@ describe 'sprout-git::projects' do
       ['renamed', 'http://example.com/some/repo1.git']
     ]
     chef_run.converge(described_recipe)
-    expect(chef_run).to run_execute('git clone http://example.com/some/repo1.git renamed').with(
+    expect(chef_run).to run_execute('git clone -b master http://example.com/some/repo1.git renamed').with(
       user: 'fauxhai',
       cwd: '/home/fauxhai/some_workspace'
     )
