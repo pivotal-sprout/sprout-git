@@ -13,7 +13,7 @@ node['sprout']['git']['projects'].each do |hash_or_legacy_array|
     elsif project_hash['github']
       repo_address = "git@github.com:#{project_hash['github']}.git"
     end
-    if project_hash['recursive'] != nil
+    if project_hash.fetch('recursive', 'not present') != 'not present'
       do_recursive = '--recursive' if project_hash['recursive']
     else
       do_recursive = '--recursive' if settings_hash['recursive']
