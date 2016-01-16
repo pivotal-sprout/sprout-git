@@ -12,4 +12,3 @@ node.default['sprout']['git']['projects'] = [
   #   github: pivotal-sprout/sprout-base
   # }
 ]
-node.default['sprout']['git']['workspace_directory'] = 'workspace'

@@ -145,7 +145,6 @@ If the project needs to have submodules initialized then those entries should in
     * `rake db:create:all db:test:prepare default`
     * `pod install`
     * `git submodule update --init`
-* `workspace_directory` &mdash; the location under the users home to clone the projects unless otherwise specified by the project config. Used by the `projects` recipe &mdash; default is `'workspace'`
 
 ### Recipes:
 

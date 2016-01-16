@@ -4,7 +4,7 @@ describe 'sprout-git::projects' do
   let(:chef_run) { ChefSpec::Runner.new }
   let(:repo_base_url) { 'http://example.com/some/repo' }
   before do
-    chef_run.node.set['sprout']['git']['workspace_directory'] = 'some_workspace'
+    chef_run.node.set['workspace_directory'] = 'some_workspace'
   end
 
   it 'includes sprout-base::workspace_directory' do

@@ -29,7 +29,7 @@ node['sprout']['git']['projects'].each do |hash_or_legacy_array|
     post_clone_commands << 'git submodule update --init --recursive'
     repo_branch = 'master'
   end
-  repo_dir ||= "#{node['sprout']['home']}/#{node['sprout']['git']['workspace_directory']}"
+  repo_dir ||= "#{node['sprout']['home']}/#{node['workspace_directory']}"
   repo_dir = File.expand_path(repo_dir)
 
   directory repo_dir do
