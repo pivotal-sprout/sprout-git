@@ -22,6 +22,7 @@ node['sprout']['git']['projects'].each do |hash_or_legacy_array|
     repo_dir = project_hash['workspace_path']
     repo_branch = project_hash['branch'] || 'master'
     post_clone_commands = project_hash['post_clone_commands'] || []
+    update = project_hash.attribute?('update') ? project_hash['update'] : false
   else
     legacy_array = hash_or_legacy_array
     repo_name = legacy_array[0]
@@ -53,6 +54,15 @@ node['sprout']['git']['projects'].each do |hash_or_legacy_array|
     user node['sprout']['user']
     cwd repo_dir
     not_if { ::File.exist?("#{repo_dir}/#{repo_name}") }
+  end
+
+  if update
+    execute 'git pull -r' do
+      user node['sprout']['user']
+      cwd "#{repo_dir}/#{repo_name}"
+      ignore_failure true
+      only_if { repo_existed_originally }
+    end
   end
 
   post_clone_commands.each do |post_clone_command|

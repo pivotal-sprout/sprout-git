@@ -204,6 +204,24 @@ describe 'sprout-git::projects' do
     )
   end
 
+  it 'can update projects that were previously checked out' do
+    chef_run.node.set['sprout']['git']['projects'] = [
+      {
+        'url' => "#{repo_base_url}1.git",
+        'update' => true
+      }
+    ]
+
+    ::File.stub(:exist?).with(anything).and_call_original
+    ::File.stub(:exist?).with('/home/fauxhai/some_workspace/repo1').and_return true
+
+    chef_run.converge(described_recipe)
+    expect(chef_run).to run_execute('git pull -r').with(
+      user: 'fauxhai',
+      cwd: '/home/fauxhai/some_workspace/repo1'
+    )
+  end
+
   it 'supports legacy attribute syntax' do
     chef_run.node.set['sprout']['git']['projects'] = [
       ['renamed', 'http://example.com/some/repo1.git']

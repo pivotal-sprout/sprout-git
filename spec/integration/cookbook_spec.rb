@@ -4,6 +4,7 @@ require 'yaml'
 describe 'sprout-git recipes' do
   before :all do
     expect(`which git-pair`).to be_empty
+    `cd ~/workspace/ && git clone https://github.com/pivotal-sprout/sprout-git.git old-git-repo && cd old-git-repo && git reset --hard master~52`
     expect(system('soloist')).to be_true
   end
 
@@ -108,5 +109,9 @@ describe 'sprout-git recipes' do
 
   it 'projects: clones the projects into the workspace using legacy support' do
     verify_cloned_project('~/workspace/foo')
+  end
+
+  it 'projects: updates projects that are already checked out' do
+    verify_cloned_project('~/workspace/old-git-repo')
   end
 end

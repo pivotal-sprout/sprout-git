@@ -27,6 +27,10 @@ node_attributes:
 
         - # e.g. ~/workspace/git-repo
           url: https://github.com/pivotal-sprout/sprout-git.git
+          name: old-git-repo
+
+        - # e.g. ~/workspace/git-repo
+          url: https://github.com/pivotal-sprout/sprout-git.git
           name: git-repo
 
         - # e.g. /alt/ern/ate/path/sprout-git

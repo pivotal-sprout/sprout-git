@@ -19,6 +19,9 @@ bundle exec soloist
 ## Cookbook Usage
 
 ### Recent changes:
+* #### adds projects sub-attributes for update
+  - you can now specify that a project should auto-update using the `update: true` attribute (default `false`)
+
 * #### adds projects_settings attribute to allow for global project settings
   also adds subattribute `recursive` to allow all given projects to be cloned recursively
   e.g.
@@ -138,6 +141,7 @@ If the project needs to have submodules initialized then those entries should in
   * `name` &mdash; *optional* &mdash; The name of the local folder containing the repo. &mdash; e.g. `my_repo`  
   * `branch` &mdash; *optional* &mdash; the initial branch to clone &mdash; e.g. `develop`
   * `recursive` &mdash; *optional* &mdash; if `true` will recursively clone the repo (essintially cloning the projects submodules if present) &mdash; defaults to `false` 
+  * `update` &mdash; *optional* &mdash; if `true` will update existing repos with a rebase &mdash; defaults to `false`
   * `workspace_path` &mdash; *optional* &mdash; The path to clone into. &mdash; e.g. `~/personal_projects` or `/abs/path/to/personal_projects`
   * `post_clone_commands` &mdash; *optional* &mdash; A list of commands to run on the freshly cloned repository. Note this is only run on a fresh clone.  Future runs of sprout will not cause these commands to be re-run. &mdash; Some example commands could include: 
     * `gem install bundler`
