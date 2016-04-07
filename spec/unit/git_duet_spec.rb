@@ -3,6 +3,10 @@ require 'unit/spec_helper'
 describe 'sprout-git::git_duet' do
   let(:chef_run) { ChefSpec::Runner.new }
 
+  before do
+    stub_command('which git').and_return(true)
+  end
+
   it 'includes the homebrew recipe' do
     chef_run.converge(described_recipe)
     expect(chef_run).to include_recipe('homebrew')
