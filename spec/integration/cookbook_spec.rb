@@ -7,7 +7,7 @@ describe 'sprout-git recipes' do
     `cd ~/workspace/ &&
       git clone https://github.com/pivotal-sprout/sprout-git.git old-git-repo &&
       cd old-git-repo && git reset --hard master~52`
-    expect(system('soloist')).to be_true
+    expect(system('soloist')).to eq(true)
   end
 
   it 'install: installs git via homebrew' do
