@@ -1,7 +1,7 @@
 require 'unit/spec_helper'
 
 describe 'sprout-git::default_editor' do
-  let(:chef_run) { ChefSpec::Runner.new }
+  let(:chef_run) { ChefSpec::SoloRunner.new }
 
   it 'includes sprout-base::bash_it' do
     chef_run.converge(described_recipe)

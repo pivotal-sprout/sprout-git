@@ -1,7 +1,7 @@
 require 'unit/spec_helper'
 
 describe 'sprout-git::authors' do
-  let(:chef_run) { ChefSpec::Runner.new }
+  let(:chef_run) { ChefSpec::SoloRunner.new }
 
   it 'installs a template in ~/.git-authors' do
     chef_run.node.set['sprout']['git']['authors'] = [

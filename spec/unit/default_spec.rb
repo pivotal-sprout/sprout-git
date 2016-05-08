@@ -1,7 +1,7 @@
 require 'unit/spec_helper'
 
 describe 'sprout-git::default' do
-  let(:runner) { ChefSpec::Runner.new }
+  let(:runner) { ChefSpec::SoloRunner.new }
   before do
     stub_command('which git').and_return(true)
     stub_command(/\[ -z `git config --global alias\.\w+` \]/).and_return(false)

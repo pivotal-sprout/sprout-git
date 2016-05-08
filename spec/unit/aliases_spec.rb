@@ -1,7 +1,7 @@
 require 'unit/spec_helper'
 
 describe 'sprout-git::aliases' do
-  let(:chef_run) { ChefSpec::Runner.new }
+  let(:chef_run) { ChefSpec::SoloRunner.new }
   let(:foo_missing) { true }
   let(:custom_aliases) { [] }
 

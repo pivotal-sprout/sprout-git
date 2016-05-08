@@ -1,7 +1,7 @@
 require 'unit/spec_helper'
 
 describe 'sprout-git::git_scripts' do
-  let(:chef_run) { ChefSpec::Runner.new }
+  let(:chef_run) { ChefSpec::SoloRunner.new }
   let(:which_pair) { nil }
   let(:untar_command) do
     'tar --strip=2 -xzf /var/chef/cache/git_scripts.tgz -C /usr/local/bin'

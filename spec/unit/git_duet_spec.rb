@@ -1,7 +1,7 @@
 require 'unit/spec_helper'
 
 describe 'sprout-git::git_duet' do
-  let(:chef_run) { ChefSpec::Runner.new }
+  let(:chef_run) { ChefSpec::SoloRunner.new }
 
   before do
     stub_command('which git').and_return(true)
