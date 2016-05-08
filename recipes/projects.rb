@@ -33,7 +33,8 @@ node['sprout']['git']['projects'].each do |hash_or_legacy_array|
   repo_dir ||= "#{node['sprout']['home']}/#{node['workspace_directory']}"
   repo_dir = File.expand_path(repo_dir)
 
-  directory repo_dir do
+  directory "workspace path for #{repo_name}" do
+    path repo_dir
     owner node['sprout']['user']
     mode '0755'
     action :create

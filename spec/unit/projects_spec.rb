@@ -164,8 +164,7 @@ describe 'sprout-git::projects' do
     chef_run.converge(described_recipe)
     expect(chef_run).to create_directory('/home/fauxhai/some_workspace').with(
       user: 'fauxhai',
-      mode: '0755',
-      recursive: true
+      mode: '0755'
     )
     expect(chef_run).to create_directory('/totally/custom/path').with(
       user: 'fauxhai',
