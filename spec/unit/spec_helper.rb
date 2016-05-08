@@ -7,4 +7,5 @@ RSpec.configure do |config|
   config.version = '10.11.1'
   config.before { stub_const('ENV', 'SUDO_USER' => 'fauxhai') }
   config.after(:suite) { FileUtils.rm_r('.librarian') }
+  config.file_cache_path = '/var/chef/cache'
 end
