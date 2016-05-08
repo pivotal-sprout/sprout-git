@@ -57,7 +57,7 @@ node['sprout']['git']['projects'].each do |hash_or_legacy_array|
   end
 
   if update
-    execute 'git pull -r' do
+    execute 'git pull -r' do # ~FC040 -- git resource cannot rebase
       user node['sprout']['user']
       cwd "#{repo_dir}/#{repo_name}"
       ignore_failure true
