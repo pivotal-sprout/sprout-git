@@ -1,4 +1,4 @@
-pretty_format = %q{--pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'}
+pretty_format = %{--pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'}
 node.default['sprout']['git']['base_aliases'] = [
   'st status',
   'di diff',

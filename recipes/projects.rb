@@ -15,8 +15,8 @@ node['sprout']['git']['projects'].each do |hash_or_legacy_array|
     end
     if project_hash.fetch('recursive', 'not present') != 'not present'
       do_recursive = '--recursive' if project_hash['recursive']
-    else
-      do_recursive = '--recursive' if settings_hash['recursive']
+    elsif settings_hash['recursive']
+      do_recursive = '--recursive'
     end
     repo_name = project_hash['name'] || %r{^.+\/([^\/\.]+)(?:\.git)?$}.match(repo_address)[1]
     repo_dir = project_hash['workspace_path']
@@ -50,7 +50,7 @@ node['sprout']['git']['projects'].each do |hash_or_legacy_array|
     repo_address,
     repo_name
   ].compact.join(' ') do
-#  execute "git clone -b #{repo_branch}#{do_recursive} #{repo_address} #{repo_name}" do
+    # execute "git clone -b #{repo_branch}#{do_recursive} #{repo_address} #{repo_name}" do
     user node['sprout']['user']
     cwd repo_dir
     not_if { ::File.exist?("#{repo_dir}/#{repo_name}") }
