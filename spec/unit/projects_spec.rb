@@ -146,8 +146,8 @@ describe 'sprout-git::projects' do
       { 'url' => "#{repo_base_url}1.git" },
       { 'url' => "#{repo_base_url}2" }
     ]
-    ::File.stub(:exist?).with(anything).and_call_original
-    ::File.stub(:exist?).with('/home/fauxhai/some_workspace/repo1').and_return true
+    allow(::File).to receive(:exist?).and_call_original
+    allow(::File).to receive(:exist?).with('/home/fauxhai/some_workspace/repo1').and_return true
     chef_run.converge(described_recipe)
     expect(chef_run).to_not run_execute('git clone -b master http://example.com/some/repo1.git repo1')
     expect(chef_run).to run_execute('git clone -b master http://example.com/some/repo2 repo2')
@@ -212,8 +212,8 @@ describe 'sprout-git::projects' do
       }
     ]
 
-    ::File.stub(:exist?).with(anything).and_call_original
-    ::File.stub(:exist?).with('/home/fauxhai/some_workspace/repo1').and_return true
+    allow(::File).to receive(:exist?).with(anything).and_call_original
+    allow(::File).to receive(:exist?).with('/home/fauxhai/some_workspace/repo1').and_return true
 
     chef_run.converge(described_recipe)
     expect(chef_run).to run_execute('git pull -r').with(
