@@ -4,7 +4,7 @@ describe 'sprout-git::default' do
   let(:runner) { ChefSpec::SoloRunner.new }
   before do
     stub_command('which git').and_return(true)
-    stub_command(/\[ -z `git config --global alias\.\w+` \]/).and_return(false)
+    stub_command(/\[ -z "\$\(git config --global alias\.\w+\)" \]/).and_return(false)
     runner.converge(described_recipe)
   end
 

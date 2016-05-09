@@ -7,8 +7,8 @@ describe 'sprout-git::aliases' do
 
   before do
     stub_command('which git').and_return(true)
-    stub_command('[ -z `git config --global alias.foo` ]').and_return(foo_missing)
-    stub_command('[ -z `git config --global alias.bar` ]').and_return(true)
+    stub_command('[ -z "$(git config --global alias.foo)" ]').and_return(foo_missing)
+    stub_command('[ -z "$(git config --global alias.bar)" ]').and_return(true)
     chef_run.node.set['sprout']['git']['base_aliases'] = ['foo "bar baz"', 'bar "baz bat"']
   end
 
@@ -40,8 +40,8 @@ describe 'sprout-git::aliases' do
   context 'with custom aliases defined as well' do
     before do
       chef_run.node.set['sprout']['git']['aliases'] = ['one custom', 'other custom']
-      stub_command('[ -z `git config --global alias.one` ]').and_return(true)
-      stub_command('[ -z `git config --global alias.other` ]').and_return(true)
+      stub_command('[ -z "$(git config --global alias.one)" ]').and_return(true)
+      stub_command('[ -z "$(git config --global alias.other)" ]').and_return(true)
     end
 
     it 'installs the custom aliases as well' do
