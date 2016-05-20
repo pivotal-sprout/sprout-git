@@ -6,7 +6,7 @@ issues_url       'https://github.com/pivotal-sprout/sprout-git/issues'
 license          'MIT'
 description      'Installs/Configures sprout-git'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          '0.2.0'
+version          '0.2.1'
 supports         'mac_os_x'
 depends          'sprout-base'
 depends          'homebrew'
