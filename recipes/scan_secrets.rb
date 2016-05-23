@@ -3,6 +3,7 @@ git_hooks_file='/usr/local/bin/git-hooks'
 git_hooks_uri='https://github.com/git-hooks/git-hooks/releases/download/v1.1.3/git-hooks_darwin_amd64.tar.gz'
 git_hooks_global_dir='/usr/local/share/githooks'
 
+# Downloading & installing git-hooks is 3 resources to placate foodcritic's FC041
 remote_file git_hooks_file_tgz do
   source git_hooks_uri
   not_if { File.exists?(git_hooks_file) }
@@ -28,8 +29,6 @@ directory git_hooks_global_dir do
 end
 
 execute "git config --system --add hooks.global #{git_hooks_global_dir}"
-
-# Chef::Resource::git_post_commit_hook.new('git_post_commit_hook', )
 
 home = node.default['sprout']['home']
 
