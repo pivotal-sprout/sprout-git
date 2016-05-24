@@ -6,7 +6,7 @@ git_hooks_global_dir = '/usr/local/share/githooks'
 # Downloading & installing git-hooks is 3 resources to placate foodcritic's FC041
 remote_file git_hooks_file_tgz do
   source git_hooks_uri
-  not_if { File.exist?(git_hooks_file) }
+  not_if { File.exist?(git_hooks_file_tgz) }
 end
 
 execute 'install git-hooks' do
