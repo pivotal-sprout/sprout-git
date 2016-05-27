@@ -20,5 +20,5 @@ node.default['sprout']['git']['base_aliases'] = [
 ]
 
 node.default['sprout']['git']['aliases'] = [
-  # 'ci duet-commit'
+  # a space delimited string containing the alias-name and alias-value
 ]

@@ -11,3 +11,9 @@ execute 'link git-duet' do
   command 'brew link git-duet'
   user    node['sprout']['user']
 end
+
+node['sprout']['git']['git_duet']['config'].each_pair do |setting, value|
+  sprout_git_global_config setting do
+    setting_value value
+  end
+end
