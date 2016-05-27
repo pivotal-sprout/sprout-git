@@ -1,10 +1,11 @@
 include_recipe 'sprout-git::install'
 
 aliases = node['sprout']['git']['aliases'] + node['sprout']['git']['base_aliases']
+
 aliases.each do |alias_string|
-  abbrev = alias_string.split[0]
-  execute "git config --global alias.#{alias_string}" do
-    user node['sprout']['user']
-    only_if "[ -z \"$(git config --global alias.#{abbrev})\" ]"
+  alias_setting, alias_value = alias_string.split(' ')
+
+  sprout_git_global_config "alias.#{alias_setting}" do
+    setting_value alias_value
   end
 end
