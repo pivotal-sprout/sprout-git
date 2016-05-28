@@ -25,10 +25,6 @@ describe 'sprout-git recipes' do
     expect(`git config --get-all alias.cfbb`.strip).to eq('commit --foo bar baz')
   end
 
-  it 'aliases: overrides base aliases with custom aliases if there is a collision' do
-    expect(`git config --get-all alias.ci`.strip).to eq('duet-commit')
-  end
-
   it 'global_config: installs global configurations' do
     excludesfile = File.expand_path('~/.gitignore_global')
     expect(`git config --get-all core.excludesfile`.strip).to eq(excludesfile)
