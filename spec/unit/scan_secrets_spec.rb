@@ -43,7 +43,7 @@ describe 'sprout-git::scan_secrets' do
     expect(chef_run).to create_directory(git_hooks_templatedir)
   end
 
-  it 'populates the global template directory', focus: true do
+  it 'populates the global template directory' do
     chef_run.converge(described_recipe)
 
     files = [
@@ -61,5 +61,11 @@ describe 'sprout-git::scan_secrets' do
     files.each do |file|
       expect(chef_run).to create_template("#{git_hooks_templatedir}/hooks/#{file}").with_source('git_hook.erb')
     end
+  end
+
+  it 'installs git-secrets', focus: true do
+    chef_run.converge(described_recipe)
+
+    expect(chef_run).to install_package('git-secrets')
   end
 end

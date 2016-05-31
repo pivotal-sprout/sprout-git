@@ -63,3 +63,9 @@ Dir.glob("#{actual_git_core}/templates/hooks/*.sample") do |sample_hook|
     content 'blah'
   end
 end
+
+if node['platform'] == 'mac_os_x'
+  package 'git-secrets'
+else
+  log 'Should install git-secrets for linux, but not implemented...'
+end
