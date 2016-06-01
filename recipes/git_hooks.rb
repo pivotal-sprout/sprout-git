@@ -1,7 +1,7 @@
 git_hooks_file_tgz = '/usr/local/bin/git-hooks.tgz'
 git_hooks_file = '/usr/local/bin/git-hooks'
 git_hooks_uri = 'https://github.com/git-hooks/git-hooks/releases/download/v1.1.3/git-hooks_darwin_amd64.tar.gz'
-git_hooks_global_dir = '/usr/local/share/githooks'
+git_hooks_global_dir = node['sprout']['git']['git_hooks_global_dir']
 git_hooks_global_templates_dir = '/usr/local/share/githooks-templatedir'
 
 # Downloading & installing git-hooks is 3 resources to placate foodcritic's FC041
@@ -60,12 +60,5 @@ Dir.glob("#{actual_git_core}/templates/hooks/*.sample") do |sample_hook|
     source 'git_hook.erb'
     owner node['sprout']['user']
     mode 0755
-    content 'blah'
   end
-end
-
-if node['platform'] == 'mac_os_x'
-  package 'git-secrets'
-else
-  log 'Should install git-secrets for linux, but not implemented...'
 end

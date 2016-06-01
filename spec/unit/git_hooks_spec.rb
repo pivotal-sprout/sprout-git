@@ -1,6 +1,6 @@
 require 'unit/spec_helper'
 
-describe 'sprout-git::scan_secrets' do
+describe 'sprout-git::git_hooks' do
   let(:chef_run) { ChefSpec::SoloRunner.new }
   let(:git_hooks_file_tgz) { '/usr/local/bin/git-hooks.tgz' }
   let(:git_hooks_file) { '/usr/local/bin/git-hooks' }
@@ -27,11 +27,9 @@ describe 'sprout-git::scan_secrets' do
     expect(chef_run).to run_execute("tar -xf #{git_hooks_file_tgz} -O > #{git_hooks_file}")
   end
 
-  it 'adds the git hooks global directory' do
-  end
+  it 'adds the git hooks global directory'
 
-  it 'installs the post commit hook on every repo' do
-  end
+  it 'installs the post commit hook on every repo'
 
   it 'sets the git global template directory' do
     chef_run.converge(described_recipe)
@@ -40,7 +38,7 @@ describe 'sprout-git::scan_secrets' do
 
   it 'creates the githooks global template directory' do
     chef_run.converge(described_recipe)
-    expect(chef_run).to create_directory(git_hooks_templatedir)
+    expect(chef_run).to create_directory("#{git_hooks_templatedir}/hooks")
   end
 
   it 'populates the global template directory' do
@@ -61,11 +59,5 @@ describe 'sprout-git::scan_secrets' do
     files.each do |file|
       expect(chef_run).to create_template("#{git_hooks_templatedir}/hooks/#{file}").with_source('git_hook.erb')
     end
-  end
-
-  it 'installs git-secrets', focus: true do
-    chef_run.converge(described_recipe)
-
-    expect(chef_run).to install_package('git-secrets')
   end
 end
