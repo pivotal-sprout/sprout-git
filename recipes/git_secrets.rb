@@ -8,7 +8,9 @@ else
   log 'Should install git-secrets for linux, but not implemented...'
 end
 
-execute 'git secrets --register-aws --global'
+execute 'git secrets --register-aws --global' do
+  returns [0, 1]
+end
 
 hooks = [
   'pre-commit',
