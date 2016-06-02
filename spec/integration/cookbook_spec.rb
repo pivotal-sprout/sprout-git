@@ -17,7 +17,7 @@ describe 'sprout-git recipes' do
   it 'aliases: installs the base aliases' do
     expect(`git config --get-all alias.st`.strip).to eq('status')
     fmt = %{--pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'}
-    expect(`git config --get-all alias.lg`.strip).to eq(%(log --graph #{fmt} --abbrev-commit --date=relative))
+    expect(`git config --get-all alias.lg`.strip).to eq(%(log --graph #{fmt} --abbrev-commit))
     expect(`git config --get-all alias.blog`.strip).to eq('log origin/master... --left-right')
   end
 
