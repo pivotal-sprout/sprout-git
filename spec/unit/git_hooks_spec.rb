@@ -42,8 +42,6 @@ describe 'sprout-git::git_hooks' do
   end
 
   it 'populates the global template directory' do
-    chef_run.converge(described_recipe)
-
     files = [
       'applypatch-msg',
       'commit-msg',
@@ -55,6 +53,12 @@ describe 'sprout-git::git_hooks' do
       'prepare-commit-msg',
       'update'
     ]
+
+    allow(Dir).to receive(:glob).and_call_original
+    allow(Dir).to receive(:glob).with('/usr/share/git-core/templates/hooks/*.sample')
+      .and_return(files.map { |file| "#{file}.sample" })
+
+    chef_run.converge(described_recipe)
 
     files.each do |file|
       expect(chef_run).to create_template("#{git_hooks_templatedir}/hooks/#{file}").with_source('git_hook.erb')
