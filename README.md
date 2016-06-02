@@ -129,7 +129,8 @@ If the project needs to have submodules initialized then those entries should in
 
 * `prefix` &mdash; the email prefix to used by git-pair &mdash; default is `'pair'`
 * `domain` &mdash; email address domain to be used by git-pair &mdash; default is `'example.com'`
-* `authors` &mdash; a list of authors to install either into the ~/.pairs or ~/.git-authors files &mdash; default is empty. _see the [soloistrc](soloistrc) file for examples._
+* `authors` &mdash; a list of authors to install either into the ~/.pairs or ~/.git-authors files &mdash; default is empty. _see the [soloistrc](soloistrc) file for examples.
+* `editor` &mdash; the value to set for `GIT_EDITOR`, defaults to `vim`.
 * `global_config` A set of configurations to be installed globally by the `global_config` recipe. &mdash; _see [config.rb](attributes/config.rb)_
 * `base_aliases` A set of git aliases like `ci`,`br`, etc to install. Used by the `aliases` recipe &mdash; dfault is empty. _see the [soloistrc](soloistrc) or [aliases.rb](attributes/aliases.rb) files for examples._
 * `aliases` &mdash; an additional set of custom aliases to be installed in addition to the `base_aliases`. Used by the `aliases` recipe &mdash; default is empty. _see the [soloistrc](soloistrc) or [aliases.rb](attributes/aliases.rb) files for examples._
