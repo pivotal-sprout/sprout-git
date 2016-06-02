@@ -13,11 +13,12 @@ node.default['sprout']['git']['base_aliases'] = [
   [
     'lg',
     [
+      '"', # open quotes around alias
       'log',
       '--graph',
       "--pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'",
       '--abbrev-commit',
-      '--date=relative'
+      '"' # close quotes around the alias
     ]
   ].flatten.join(' '),
   'lol "log --graph --decorate --oneline"',
