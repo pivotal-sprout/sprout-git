@@ -121,11 +121,11 @@ describe 'sprout-git recipes' do
   end
 
   it 'git_hooks: configures a global git-hooks directory' do
-    expect(`git config --get-all hooks.global`.strip).to eq('/usr/local/share/githooks')
+    expect(`git config --get-all hooks.global | head -1`.strip).to eq('/usr/local/share/githooks')
   end
 
   it 'git_hooks: backup existing hooks' do
-    expect(File).to exist('~/workspace/old-git-repo/githooks/fake-hook/recovered-hook')
+    expect(File).to exist(File.expand_path('~/workspace/old-git-repo/githooks/fake-hook/recovered-hook'))
   end
   it 'git_hooks: ensures git-hooks are used for git init and git clone'
   it 'git_secrets: installs git-secrets'
