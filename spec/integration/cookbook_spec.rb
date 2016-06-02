@@ -112,4 +112,18 @@ describe 'sprout-git recipes' do
   it 'projects: updates projects that are already checked out' do
     verify_cloned_project('~/workspace/old-git-repo')
   end
+
+  it 'git_hooks: installs git-hooks via homebrew' do
+    expect(File).to exist('/usr/local/bin/git-hooks')
+  end
+
+  it 'git_hooks: configures a global git-hooks directory' do
+    expect(`git config --get-all hooks.global`.strip).to eq('/usr/local/share/githooks')
+  end
+
+  it 'git_hooks: adds git hooks to all known repos'
+  it 'git_hooks: ensures git-hooks are used for git init and git clone'
+
+  it 'git_secrets: installs git-secrets'
+  it 'git_secrets: installs git-secrets hooks for all users'
 end
