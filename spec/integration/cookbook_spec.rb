@@ -7,6 +7,9 @@ describe 'sprout-git recipes' do
     `cd ~/workspace/ &&
       git clone https://github.com/pivotal-sprout/sprout-git.git old-git-repo &&
       cd old-git-repo && git reset --hard master~52`
+    `mkdir -p ~/workspace/old-git-repo/.git/hooks &&
+      touch ~/workspace/old-git-repo/.git/hooks/fake-hook`
+
     expect(system('soloist')).to eq(true)
   end
 
@@ -121,9 +124,10 @@ describe 'sprout-git recipes' do
     expect(`git config --get-all hooks.global`.strip).to eq('/usr/local/share/githooks')
   end
 
-  it 'git_hooks: adds git hooks to all known repos'
+  it 'git_hooks: backup existing hooks' do
+    expect(File).to exist('~/workspace/old-git-repo/githooks/fake-hook/recovered-hook')
+  end
   it 'git_hooks: ensures git-hooks are used for git init and git clone'
-
   it 'git_secrets: installs git-secrets'
   it 'git_secrets: installs git-secrets hooks for all users'
 end
