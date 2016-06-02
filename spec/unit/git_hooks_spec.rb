@@ -54,9 +54,12 @@ describe 'sprout-git::git_hooks' do
       'update'
     ]
 
+    allow(Dir).to receive(:exist?).and_call_original
+    allow(Dir).to receive(:exist?).with('/usr/share/git-core')
+      .and_return(true)
     allow(Dir).to receive(:glob).and_call_original
     allow(Dir).to receive(:glob).with('/usr/share/git-core/templates/hooks/*.sample')
-      .and_return(files.map { |file| "#{file}.sample" })
+      .and_return(files.map { |file| "/usr/share/git-core/templates/hooks/#{file}.sample" })
 
     chef_run.converge(described_recipe)
 

@@ -54,7 +54,7 @@ local_git_core = '/usr/local/share/git-core'
 
 actual_git_core = Dir.exist?(system_git_core) ? system_git_core : local_git_core
 
-Dir.glob("#{actual_git_core}/templates/hooks/*.sample") do |sample_hook|
+Dir.glob("#{actual_git_core}/templates/hooks/*.sample").each do |sample_hook|
   new_hook_name = File.basename(sample_hook, '.sample')
   template "#{git_hooks_global_templates_dir}/hooks/#{new_hook_name}" do
     source 'git_hook.erb'
