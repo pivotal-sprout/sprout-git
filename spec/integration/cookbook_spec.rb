@@ -4,6 +4,7 @@ require 'yaml'
 describe 'sprout-git recipes' do
   before :all do
     expect(`which git-pair`).to be_empty
+    `mkdir -p ~/workspace`
     `cd ~/workspace/ &&
       git clone https://github.com/pivotal-sprout/sprout-git.git old-git-repo &&
       cd old-git-repo && git reset --hard master~52`
