@@ -10,8 +10,9 @@ describe 'sprout-git recipes' do
       cd old-git-repo &&
       git reset --hard master~52`
     `cd ~/workspace/ &&
-      git clone https://github.com/pivotal-sprout/sprout-git.git hooks-test-repo &&
+      mkdir -p hooks-test-repo &&
       cd hooks-test-repo &&
+      git init &&
       mkdir -p .git/hooks &&
       touch .git/hooks/fake-hook`
 
@@ -132,7 +133,35 @@ describe 'sprout-git recipes' do
   it 'git_hooks: backup existing hooks' do
     expect(File).to exist(File.expand_path('~/workspace/hooks-test-repo/githooks/fake-hook/recovered-hook'))
   end
-  it 'git_hooks: ensures git-hooks are used for git init and git clone'
-  it 'git_secrets: installs git-secrets'
-  it 'git_secrets: installs git-secrets hooks for all users'
+
+  it 'git_hooks: ensures git-hooks are used for git init and git clone' do
+    `cd ~/workspace &&
+      mkdir init-test-repo &&
+      git clone https://github.com/pivotal-sprout/sprout-git.git clone-test-repo &&
+      cd init-test-repo &&
+      git init`
+
+    files = [
+      'applypatch-msg',
+      'commit-msg',
+      'post-update',
+      'pre-applypatch',
+      'pre-commit',
+      'pre-push',
+      'pre-rebase',
+      'prepare-commit-msg',
+      'update'
+    ]
+
+    files.each do |file|
+      expect(File).to exist(File.expand_path("~/workspace/init-test-repo/.git/hooks/#{file}"))
+      expect(File).to exist(File.expand_path("~/workspace/clone-test-repo/.git/hooks/#{file}"))
+    end
+  end
+
+  it 'git_secrets: installs git-secrets hooks for all users' do
+    expect(File).to exist('/usr/local/share/githooks/pre-commit/00-git-secrets')
+    expect(File).to exist('/usr/local/share/githooks/commit-msg/00-git-secrets')
+    expect(File).to exist('/usr/local/share/githooks/prepare-commit-msg/00-git-secrets')
+  end
 end
