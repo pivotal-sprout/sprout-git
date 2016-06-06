@@ -49,16 +49,22 @@ end
 
 execute "git config --global init.templatedir #{git_hooks_global_templates_dir}"
 
-system_git_core = '/usr/share/git-core'
-local_git_core = '/usr/local/share/git-core'
+ruby_block 'git-hook templates' do
+  block do
+    system_git_core = '/usr/share/git-core'
+    local_git_core = '/usr/local/share/git-core'
 
-actual_git_core = Dir.exist?(system_git_core) ? system_git_core : local_git_core
+    actual_git_core = Dir.exist?(system_git_core) ? system_git_core : local_git_core
 
-Dir.glob("#{actual_git_core}/templates/hooks/*.sample").each do |sample_hook|
-  new_hook_name = File.basename(sample_hook, '.sample')
-  template "#{git_hooks_global_templates_dir}/hooks/#{new_hook_name}" do
-    source 'git_hook.erb'
-    owner node['sprout']['user']
-    mode 0755
+    Dir.glob("#{actual_git_core}/templates/hooks/*.sample").each do |sample_hook|
+      new_hook_name = File.basename(sample_hook, '.sample')
+
+      r = Chef::Resource::Template.new "#{git_hooks_global_templates_dir}/hooks/#{new_hook_name}", run_context
+      r.cookbook 'sprout-git'
+      r.source  'git_hook.erb'
+      r.owner node['sprout']['user']
+      r.mode 0755
+      r.run_action :create
+    end
   end
 end
