@@ -4,9 +4,18 @@ require 'yaml'
 describe 'sprout-git recipes' do
   before :all do
     expect(`which git-pair`).to be_empty
+    `mkdir -p ~/workspace`
     `cd ~/workspace/ &&
       git clone https://github.com/pivotal-sprout/sprout-git.git old-git-repo &&
-      cd old-git-repo && git reset --hard master~52`
+      cd old-git-repo &&
+      git reset --hard master~52`
+    `cd ~/workspace/ &&
+      mkdir -p hooks-test-repo &&
+      cd hooks-test-repo &&
+      git init &&
+      mkdir -p .git/hooks &&
+      touch .git/hooks/fake-hook`
+
     expect(system('soloist')).to eq(true)
   end
 
@@ -111,5 +120,48 @@ describe 'sprout-git recipes' do
 
   it 'projects: updates projects that are already checked out' do
     verify_cloned_project('~/workspace/old-git-repo')
+  end
+
+  it 'git_hooks: installs git-hooks via homebrew' do
+    expect(File).to exist('/usr/local/bin/git-hooks')
+  end
+
+  it 'git_hooks: configures a global git-hooks directory' do
+    expect(`git config --get-all hooks.global | head -1`.strip).to eq('/usr/local/share/githooks')
+  end
+
+  it 'git_hooks: backup existing hooks' do
+    expect(File).to exist(File.expand_path('~/workspace/hooks-test-repo/githooks/fake-hook/recovered-hook'))
+  end
+
+  it 'git_hooks: ensures git-hooks are used for git init and git clone' do
+    `cd ~/workspace &&
+      mkdir init-test-repo &&
+      git clone https://github.com/pivotal-sprout/sprout-git.git clone-test-repo &&
+      cd init-test-repo &&
+      git init`
+
+    files = [
+      'applypatch-msg',
+      'commit-msg',
+      'post-update',
+      'pre-applypatch',
+      'pre-commit',
+      'pre-push',
+      'pre-rebase',
+      'prepare-commit-msg',
+      'update'
+    ]
+
+    files.each do |file|
+      expect(File).to exist(File.expand_path("~/workspace/init-test-repo/.git/hooks/#{file}"))
+      expect(File).to exist(File.expand_path("~/workspace/clone-test-repo/.git/hooks/#{file}"))
+    end
+  end
+
+  it 'git_secrets: installs git-secrets hooks for all users' do
+    expect(File).to exist('/usr/local/share/githooks/pre-commit/00-git-secrets')
+    expect(File).to exist('/usr/local/share/githooks/commit-msg/00-git-secrets')
+    expect(File).to exist('/usr/local/share/githooks/prepare-commit-msg/00-git-secrets')
   end
 end

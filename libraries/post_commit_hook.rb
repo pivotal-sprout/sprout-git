@@ -16,30 +16,30 @@ class Chef
           if !::File.directory?(::File.join('.git', 'hooks.old'))
             install_git_hooks(owner)
           else
-            Chef::Log.info("#{git_repo_dir} appears to already have git-hooks installed, skipping")
+            Chef::Log.info("#{::Dir.pwd} appears to already have git-hooks installed, skipping")
           end
         else
-          Chef::Log.info("#{git_repo_dir} doesn't appear to be a git repository, skipping")
+          Chef::Log.info("#{::Dir.pwd} doesn't appear to be a git repository, skipping")
         end
       end
 
       def self.install_git_hooks(owner)
-        Chef::Log.info("Installing git-secrets hooks for #{git_repo_dir}")
-        unapplied_hook_files = get_unapplied_hook_files(::File.glob(::File.join('.git', 'hooks', '*')))
+        Chef::Log.info("Installing git-hooks for #{::Dir.pwd}")
+        unapplied_hook_files = get_unapplied_hook_files(::Dir.glob(::File.join('.git', 'hooks', '*')))
         unapplied_hook_files.each do |unapplied_hook_file|
           hook_dir = ::File.join('githooks', ::File.basename(unapplied_hook_file))
-          Dir.mkdir_p hook_dir
-          ::File.cp unapplied_hook_file, ::File.join(hook_dir, 'recovered_hook')
+          FileUtils.mkdir_p hook_dir
+          FileUtils.cp unapplied_hook_file, ::File.join(hook_dir, 'recovered-hook')
         end
         install_git_hooks_in_current_repo(owner)
       end
 
       def self.get_unapplied_hook_files(potential_hook_files)
-        hook_files = potential_hook_files.select do |potential_hook_file|
-          !potential_hook_file[/.sample$/].nil?
+        hook_files = potential_hook_files.reject do |potential_hook_file|
+          potential_hook_file[/.sample$/]
         end
-        hook_files.reject do |hook_file|
-          ::File.open(hook_file).grep(/git-hook/)
+        hook_files.select do |hook_file|
+          ::File.open(hook_file).grep(/git-hooks/).empty?
         end
       end
 
