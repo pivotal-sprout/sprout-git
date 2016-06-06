@@ -27,9 +27,10 @@ describe 'sprout-git::git_hooks' do
     expect(chef_run).to run_execute("tar -xf #{git_hooks_file_tgz} -O > #{git_hooks_file}")
   end
 
-  it 'adds the git hooks global directory'
-
-  it 'installs the post commit hook on every repo'
+  it 'adds the git hooks global directory' do
+    chef_run.converge(described_recipe)
+    expect(chef_run).to create_directory('/usr/local/share/githooks')
+  end
 
   it 'sets the git global template directory' do
     chef_run.converge(described_recipe)
