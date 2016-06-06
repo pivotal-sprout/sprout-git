@@ -42,29 +42,10 @@ describe 'sprout-git::git_hooks' do
   end
 
   it 'populates the global template directory' do
-    files = [
-      'applypatch-msg',
-      'commit-msg',
-      'post-update',
-      'pre-applypatch',
-      'pre-commit',
-      'pre-push',
-      'pre-rebase',
-      'prepare-commit-msg',
-      'update'
-    ]
-
-    allow(Dir).to receive(:exist?).and_call_original
-    allow(Dir).to receive(:exist?).with('/usr/share/git-core')
-      .and_return(true)
-    allow(Dir).to receive(:glob).and_call_original
-    allow(Dir).to receive(:glob).with('/usr/share/git-core/templates/hooks/*.sample')
-      .and_return(files.map { |file| "/usr/share/git-core/templates/hooks/#{file}.sample" })
-
+    chef_run.node.set['sprout']['git']['git_hooks']['hooks'] = %w(fakehook1 fakehook2)
     chef_run.converge(described_recipe)
 
-    files.each do |file|
-      expect(chef_run).to create_template("#{git_hooks_templatedir}/hooks/#{file}").with_source('git_hook.erb')
-    end
+    expect(chef_run).to create_template("#{git_hooks_templatedir}/hooks/fakehook1").with_source('git_hook.erb')
+    expect(chef_run).to create_template("#{git_hooks_templatedir}/hooks/fakehook2").with_source('git_hook.erb')
   end
 end

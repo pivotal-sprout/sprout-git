@@ -1,7 +1,7 @@
 git_hooks_file_tgz = '/usr/local/bin/git-hooks.tgz'
 git_hooks_file = '/usr/local/bin/git-hooks'
 git_hooks_uri = 'https://github.com/git-hooks/git-hooks/releases/download/v1.1.3/git-hooks_darwin_amd64.tar.gz'
-git_hooks_global_dir = node['sprout']['git']['git_hooks_global_dir']
+git_hooks_global_dir = node['sprout']['git']['git_hooks']['global_dir']
 git_hooks_global_templates_dir = '/usr/local/share/githooks-templatedir'
 
 # Downloading & installing git-hooks is 3 resources to placate foodcritic's FC041
@@ -49,22 +49,10 @@ end
 
 execute "git config --global init.templatedir #{git_hooks_global_templates_dir}"
 
-ruby_block 'git-hook templates' do
-  block do
-    system_git_core = '/usr/share/git-core'
-    local_git_core = '/usr/local/share/git-core'
-
-    actual_git_core = Dir.exist?(system_git_core) ? system_git_core : local_git_core
-
-    Dir.glob("#{actual_git_core}/templates/hooks/*.sample").each do |sample_hook|
-      new_hook_name = File.basename(sample_hook, '.sample')
-
-      r = Chef::Resource::Template.new "#{git_hooks_global_templates_dir}/hooks/#{new_hook_name}", run_context
-      r.cookbook 'sprout-git'
-      r.source  'git_hook.erb'
-      r.owner node['sprout']['user']
-      r.mode 0755
-      r.run_action :create
-    end
+node['sprout']['git']['git_hooks']['hooks'].each do |hook_name|
+  template "#{git_hooks_global_templates_dir}/hooks/#{hook_name}" do
+    source 'git_hook.erb'
+    owner node['sprout']['user']
+    mode 0755
   end
 end
