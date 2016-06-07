@@ -27,6 +27,6 @@ hooks.each do |hook|
     mode 0755
     owner node['sprout']['user']
     source '00-git-secrets.erb'
-    variables hook_name: "#{hook.sub('-', '_')}_hook"
+    variables hook_name: "#{hook.tr('-', '_')}_hook"
   end
 end
