@@ -1,4 +1,5 @@
 require 'unit/spec_helper'
+require 'ostruct'
 
 describe 'sprout-git::git_secrets' do
   let(:chef_run) { ChefSpec::SoloRunner.new }
@@ -21,16 +22,16 @@ describe 'sprout-git::git_secrets' do
   it 'installs git-secrets hooks for all users' do
     global_hooks_dir = '/usr/local/share/githooks'
     hooks = [
-      'pre-commit',
-      'commit-msg',
-      'prepare-commit-msg'
+      OpenStruct.new(name: 'pre-commit', git_secrets_hook: 'pre_commit_hook'),
+      OpenStruct.new(name: 'commit-msg', git_secrets_hook: 'commit_msg_hook'),
+      OpenStruct.new(name: 'prepare-commit-msg', git_secrets_hook: 'prepare_commit_msg_hook')
     ]
 
     hooks.each do |hook|
-      expect(chef_run).to create_directory("#{global_hooks_dir}/#{hook}")
-      expect(chef_run).to create_template("#{global_hooks_dir}/#{hook}/00-git-secrets")
+      expect(chef_run).to create_directory("#{global_hooks_dir}/#{hook.name}")
+      expect(chef_run).to create_template("#{global_hooks_dir}/#{hook.name}/00-git-secrets")
         .with_source('00-git-secrets.erb')
-        .with_variables(hook_name: "#{hook.sub('-', '_')}_hook")
+        .with_variables(hook_name: hook.git_secrets_hook)
     end
   end
 end
