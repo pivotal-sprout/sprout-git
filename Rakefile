@@ -1,4 +1,5 @@
 require 'rake'
+require 'foodcritic'
 require 'rspec/core/rake_task'
 require 'rubocop/rake_task'
 
@@ -8,9 +9,10 @@ task default: %w(foodcritic rubocop spec:unit)
 desc 'Run default && spec:integration'
 task ci: %w(default spec:integration)
 
-desc 'Run foodcritic'
-task :foodcritic do
-  sh 'foodcritic . -f any'
+FoodCritic::Rake::LintTask.new do |t|
+  t.options[:fail_tags] = ['any']
+  t.options[:progress] = true
+  t.options[:context] = true
 end
 
 RuboCop::RakeTask.new
