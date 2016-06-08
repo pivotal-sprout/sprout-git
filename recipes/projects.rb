@@ -4,32 +4,25 @@
 include_recipe 'sprout-base::workspace_directory'
 
 settings_hash = node['sprout']['git']['projects_settings']
-node['sprout']['git']['projects'].each do |hash_or_legacy_array|
-  post_clone_commands = []
-  if hash_or_legacy_array.is_a?(Hash)
-    project_hash = hash_or_legacy_array
-    if project_hash['url']
-      repo_address = project_hash['url']
-    elsif project_hash['github']
-      repo_address = "git@github.com:#{project_hash['github']}.git"
-    end
-    if project_hash.fetch('recursive', 'not present') != 'not present'
-      do_recursive = '--recursive' if project_hash['recursive']
-    elsif settings_hash['recursive']
-      do_recursive = '--recursive'
-    end
-    repo_name = project_hash['name'] || %r{^.+\/([^\/\.]+)(?:\.git)?$}.match(repo_address)[1]
-    repo_dir = project_hash['workspace_path']
-    repo_branch = project_hash['branch'] || 'master'
-    post_clone_commands = project_hash['post_clone_commands'] || []
-    update = project_hash.attribute?('update') ? project_hash['update'] : false
-  else
-    legacy_array = hash_or_legacy_array
-    repo_name = legacy_array[0]
-    repo_address = legacy_array[1]
-    post_clone_commands << 'git submodule update --init --recursive'
-    repo_branch = 'master'
+node['sprout']['git']['projects'].each do |project_hash|
+  if project_hash['url']
+    repo_address = project_hash['url']
+  elsif project_hash['github']
+    repo_address = "git@github.com:#{project_hash['github']}.git"
   end
+
+  if project_hash.fetch('recursive', 'not present') != 'not present'
+    do_recursive = '--recursive' if project_hash['recursive']
+  elsif settings_hash['recursive']
+    do_recursive = '--recursive'
+  end
+
+  repo_name = project_hash['name'] || %r{^.+\/([^\/\.]+)(?:\.git)?$}.match(repo_address)[1]
+  repo_dir = project_hash['workspace_path']
+  repo_branch = project_hash['branch'] || 'master'
+  post_clone_commands = project_hash['post_clone_commands'] || []
+  update = project_hash.attribute?('update') ? project_hash['update'] : false
+
   repo_dir ||= "#{node['sprout']['home']}/#{node['workspace_directory']}"
   repo_dir = File.expand_path(repo_dir)
 

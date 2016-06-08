@@ -220,21 +220,4 @@ describe 'sprout-git::projects' do
       cwd: '/home/fauxhai/some_workspace/repo1'
     )
   end
-
-  it 'supports legacy attribute syntax' do
-    chef_run.node.set['sprout']['git']['projects'] = [
-      ['renamed', 'http://example.com/some/repo1.git']
-    ]
-    chef_run.converge(described_recipe)
-    expect(chef_run).to run_execute('git clone -b master http://example.com/some/repo1.git renamed').with(
-      user: 'fauxhai',
-      cwd: '/home/fauxhai/some_workspace'
-    )
-
-    expect(chef_run).to run_execute('git submodule update --init --recursive').with(
-      user: 'fauxhai',
-      cwd: '/home/fauxhai/some_workspace/renamed',
-      ignore_failure: true
-    )
-  end
 end

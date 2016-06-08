@@ -19,6 +19,8 @@ bundle exec soloist
 ## Cookbook Usage
 
 ### Recent changes:
+* #### remove support for legacy array based format for specifying `projects`
+
 * #### adds projects sub-attributes for update
   - you can now specify that a project should auto-update using the `update: true` attribute (default `false`)
 
@@ -74,6 +76,7 @@ bundle exec soloist
   This will add a custom bash_it plugin that causes git-duet to set global git properties.
 
 * #### the projects attributes have changed from an array of tuples:
+  **NOTE** support for the array syntax has been removed as of 2016-06-08
   ```
   node_attributes:
     sprout:
