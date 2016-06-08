@@ -5,6 +5,7 @@ describe 'sprout-git::git_hooks' do
   let(:git_hooks_file_tgz) { '/usr/local/bin/git-hooks.tgz' }
   let(:git_hooks_file) { '/usr/local/bin/git-hooks' }
   let(:git_hooks_templatedir) { '/usr/local/share/githooks-templatedir' }
+  let(:git_hooks_global_dir) { '/usr/local/share/githooks' }
   let(:git_hooks_uri) do
     'https://github.com/git-hooks/git-hooks/releases/download/v1.1.3/git-hooks_darwin_amd64.tar.gz'
   end
@@ -29,17 +30,26 @@ describe 'sprout-git::git_hooks' do
 
   it 'adds the git hooks global directory' do
     chef_run.converge(described_recipe)
-    expect(chef_run).to create_directory('/usr/local/share/githooks')
+    expect(chef_run).to create_directory(git_hooks_global_dir)
   end
 
-  it 'sets the git global template directory' do
+  it 'sets the git hooks global directory' do
     chef_run.converge(described_recipe)
-    expect(chef_run).to run_execute("git config --global init.templatedir #{git_hooks_templatedir}")
+    expect(chef_run).to create_sprout_git_global_resource('hooks.global').with(
+      setting_value: git_hooks_global_dir
+    )
   end
 
   it 'creates the githooks global template directory' do
     chef_run.converge(described_recipe)
     expect(chef_run).to create_directory("#{git_hooks_templatedir}/hooks")
+  end
+
+  it 'sets the git global template directory' do
+    chef_run.converge(described_recipe)
+    expect(chef_run).to create_sprout_git_global_resource('init.templatedir').with(
+      setting_value: git_hooks_templatedir
+    )
   end
 
   it 'populates the global template directory' do
