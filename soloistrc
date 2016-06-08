@@ -48,5 +48,5 @@ node_attributes:
           name: with-post-clone
           post_clone_commands:
             - 'touch touched.txt'
-            - false
+            - 'false'
             - 'echo "hello" >> world.txt'
