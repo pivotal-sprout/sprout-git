@@ -9,7 +9,7 @@ node_attributes:
     git:
       aliases:
         - ci duet-commit
-        - cfbb "commit --foo bar baz"
+        - cfbb "commit --with-custom-flags bar baz"
       domain: pivotal.io
       prefix: pair
       authors:
@@ -38,10 +38,10 @@ node_attributes:
           url: https://github.com/pivotal-sprout/sprout-git.git
           workspace_path: '/alt/ern/ate/path'
 
-        - # e.g. ~/personal_projects/foo  ~/personal_projects/foo
+        - # e.g. ~/personal_projects/custom-name
           url: https://github.com/pivotal-sprout/sprout-git.git
           workspace_path: '~/personal_projects'
-          name: foo
+          name: custom-name
 
         - # with a post_clone hook
           url: https://github.com/pivotal-sprout/sprout-git.git
@@ -50,8 +50,3 @@ node_attributes:
             - 'touch touched.txt'
             - false
             - 'echo "hello" >> world.txt'
-
-        # legacy support
-        - # e.g. ~/workspace/foo
-          - foo
-          - https://github.com/pivotal-sprout/sprout-git.git

@@ -31,7 +31,7 @@ describe 'sprout-git recipes' do
   end
 
   it 'aliases: installs custom aliases' do
-    expect(`git config --get-all alias.cfbb`.strip).to eq('commit --foo bar baz')
+    expect(`git config --get-all alias.cfbb`.strip).to eq('commit --with-custom-flags bar baz')
   end
 
   it 'global_config: installs global configurations' do
@@ -102,7 +102,7 @@ describe 'sprout-git recipes' do
   end
 
   it 'projects: clones the projects into the workspace using url, name, workspace_path' do
-    verify_cloned_project('~/personal_projects/foo')
+    verify_cloned_project('~/personal_projects/custom-name')
   end
 
   it 'projects: runs a post-clone command to create a file' do
@@ -112,10 +112,6 @@ describe 'sprout-git recipes' do
     expect(File).to exist(world_file)
     f = File.open(world_file, 'rb')
     expect(f.read).to eq("hello\n")
-  end
-
-  it 'projects: clones the projects into the workspace using legacy support' do
-    verify_cloned_project('~/workspace/foo')
   end
 
   it 'projects: updates projects that are already checked out' do
