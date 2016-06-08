@@ -1,6 +1,6 @@
+.bundle/
+.idea/
 Cheffile.lock
 Gemfile.lock
 tmp/
 cookbooks/
-.idea/
-.librarian/

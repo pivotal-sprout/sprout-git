@@ -7,13 +7,11 @@ Recipes to install git related tools on OS X.
 ### Prerequisites
 
 - [system ruby](.ruby-version)
-- [bundler](http://bundler.io/)
 
 ### Quickstart
 
 ```
-bundle
-bundle exec soloist
+./sprout
 ```
 
 ## Cookbook Usage
@@ -174,8 +172,7 @@ If the project needs to have submodules initialized then those entries should in
 ### Before committing
 
 ```
-bundle
-bundle exec rake
+./sprout exec rake
 ```
 
 The default rake task includes rubocop, foodcritic, unit specs
@@ -183,15 +180,13 @@ The default rake task includes rubocop, foodcritic, unit specs
 ### [Rubocop](https://github.com/bbatsov/rubocop)
 
 ```
-bundle
-bundle exec rake rubocop
+./sprout exec rake rubocop
 ```
 
 ### [FoodCritic](http://acrmp.github.io/foodcritic/)
 
 ```
-bundle
-bundle exec rake foodcritic
+./sprout exec rake foodcritic
 ```
 
 ### Unit specs
@@ -199,8 +194,7 @@ bundle exec rake foodcritic
 Unit specs use [ServerSpec](http://serverspec.org/)
 
 ```
-bundle
-bundle exec rake spec:unit
+./sprout exec rake spec:unit
 ```
 
 ### Integration specs
@@ -211,6 +205,5 @@ install.
 *Note:* It has a precondition that git-pair is _not_ already installed on the system.
 
 ```
-bundle
-bundle exec rake spec:integration
+./sprout exec rake spec:integration
 ```
