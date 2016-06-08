@@ -18,7 +18,7 @@ node['sprout']['git']['projects'].each do |hash_or_legacy_array|
     elsif settings_hash['recursive']
       do_recursive = '--recursive'
     end
-    repo_name = project_hash['name'] || %r{^.+\/([^\/\.]+)(?:\.git)?$}.match(repo_address)[1]
+    repo_name = project_hash['name'] || %r{^.+\/([^\/\.]+(?:\.wiki)?)(?:\.git)?$}.match(repo_address)[1]
     repo_dir = project_hash['workspace_path']
     repo_branch = project_hash['branch'] || 'master'
     post_clone_commands = project_hash['post_clone_commands'] || []
