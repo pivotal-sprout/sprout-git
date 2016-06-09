@@ -5,19 +5,36 @@ describe 'sprout-git recipes' do
   before :all do
     expect(File).not_to exist('/usr/local/bin/git-pair')
     expect(Dir).to_not exist(File.expand_path('~/workspace'))
+    expect(Dir).to_not exist(File.expand_path('~/go'))
+
+    create_workspace
+    create_go_project
+
+    expect(system('soloist')).to eq(true)
+  end
+
+  def create_workspace
     `mkdir -p ~/workspace`
     `cd ~/workspace/ &&
       git clone https://github.com/pivotal-sprout/sprout-git.git old-git-repo &&
-      cd old-git-repo &&
-      git reset --hard master~52`
+      cd old-git-repo && git reset --hard master~52`
     `cd ~/workspace/ &&
       mkdir -p hooks-test-repo &&
       cd hooks-test-repo &&
       git init &&
-      mkdir -p .git/hooks &&
-      touch .git/hooks/fake-hook`
+      mkdir -p .git/hooks && touch .git/hooks/fake-hook`
+    `touch ~/workspace/errant_file2`
+  end
 
-    expect(system('soloist')).to eq(true)
+  def create_go_project
+    `mkdir -p ~/go/src/github.com/testorg/testproject`
+    `pushd ~/go/src/github.com/testorg/testproject &&
+      git init &&
+      mkdir -p .git/hooks &&
+      touch .git/hooks/fake-hook &&
+      popd`
+    `touch ~/go/src/github.com/testorg/errant_file1`
+    `touch ~/go/src/github.com/errant_file2`
   end
 
   it 'install: installs git via homebrew' do
@@ -128,16 +145,6 @@ describe 'sprout-git recipes' do
   end
 
   it 'git_hooks: backup existing hooks' do
-    `mkdir -p ~/go/src/github.com/testorg/testproject`
-    `pushd ~/go/src/github.com/testorg/testproject &&
-      git init &&
-      mkdir -p .git/hooks &&
-      touch .git/hooks/fake-hook &&
-      popd`
-    `touch ~/go/src/github.com/testorg/errant_file1`
-    `touch ~/workspace/errant_file2 &&
-      touch ~/go/src/github.com/errant_file3`
-
     expect(File).to exist(File.expand_path('~/workspace/hooks-test-repo/githooks/fake-hook/recovered-hook'))
     expect(File).to exist(File.expand_path('~/go/src/github.com/testorg/testproject/githooks/fake-hook/recovered-hook'))
   end
