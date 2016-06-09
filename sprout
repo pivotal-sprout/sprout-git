@@ -12,9 +12,8 @@ function use_local_gems() {
   current_ruby=$(which ruby)
   if [ "${current_ruby}" != '/usr/bin/ruby' ]; then
     echo -e "\033[31mWarning: sprout should be run with system ruby; using '${current_ruby}'\033[0m"
-  else
-    echo "# - Using $(${current_ruby} -v)"
   fi
+  echo "# - Using $(${current_ruby} -v)"
 }
 
 function ensure_in_sprout_home() {
