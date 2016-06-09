@@ -3,7 +3,7 @@ require 'yaml'
 
 describe 'sprout-git recipes' do
   before :all do
-    expect(`which git-pair`).to be_empty
+    expect(File).not_to exist('/usr/local/bin/git-pair')
     `mkdir -p ~/workspace`
     `cd ~/workspace/ &&
       git clone https://github.com/pivotal-sprout/sprout-git.git old-git-repo &&
@@ -78,8 +78,8 @@ describe 'sprout-git recipes' do
     )
   end
 
-  it 'git_scripts: install git-duet' do
-    expect(`which git-duet`).not_to be_empty
+  it 'git_scripts: installs git-duet via homebrew' do
+    expect(File).to exist('/usr/local/bin/git-duet')
   end
 
   def verify_cloned_project(path)
