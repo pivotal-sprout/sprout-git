@@ -36,7 +36,8 @@ describe 'sprout-git::git_hooks' do
   it 'sets the git hooks global directory' do
     chef_run.converge(described_recipe)
     expect(chef_run).to create_sprout_git_global_resource('hooks.global').with(
-      setting_value: git_hooks_global_dir
+      setting_value: git_hooks_global_dir,
+      scope: :system
     )
   end
 

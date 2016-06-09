@@ -4,7 +4,7 @@ require 'chefspec/librarian'
 
 RSpec.configure do |config|
   config.platform = 'mac_os_x'
-  config.version = '10.11.1'
+  config.version = '10.11.1' # via https://github.com/customink/fauxhai/tree/master/lib/fauxhai/platforms/mac_os_x
   config.before { stub_const('ENV', 'SUDO_USER' => 'fauxhai') }
   config.after(:suite) { FileUtils.rm_r('.librarian') }
   config.file_cache_path = '/var/chef/cache'

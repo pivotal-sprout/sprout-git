@@ -29,8 +29,9 @@ directory git_hooks_global_dir do
   owner node['sprout']['user']
 end
 
-sprout_git_global_config 'hooks.global' do
+sprout_git_config 'hooks.global' do
   setting_value git_hooks_global_dir
+  scope :system # https://github.com/git-hooks/git-hooks only looks in `--system`
 end
 
 sprout_git_post_commit_hook 'installing git post-commit hook ~/workspace/*' do
@@ -49,7 +50,7 @@ directory '/usr/local/share/githooks-templatedir/hooks' do
   owner node['sprout']['user']
 end
 
-sprout_git_global_config 'init.templatedir' do
+sprout_git_config 'init.templatedir' do
   setting_value git_hooks_global_templates_dir
 end
 

@@ -1,5 +1,6 @@
 .bundle/
 .idea/
+.librarian/
 Cheffile.lock
 Gemfile.lock
 tmp/

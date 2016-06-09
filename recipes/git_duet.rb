@@ -13,7 +13,7 @@ execute 'link git-duet' do
 end
 
 node['sprout']['git']['git_duet']['config'].each_pair do |setting, value|
-  sprout_git_global_config setting do
+  sprout_git_config setting do
     setting_value value
   end
 end
