@@ -4,6 +4,7 @@ require 'yaml'
 describe 'sprout-git recipes' do
   before :all do
     expect(File).not_to exist('/usr/local/bin/git-pair')
+    expect(Dir).to_not exist(File.expand_path('~/workspace'))
     `mkdir -p ~/workspace`
     `cd ~/workspace/ &&
       git clone https://github.com/pivotal-sprout/sprout-git.git old-git-repo &&
@@ -127,7 +128,18 @@ describe 'sprout-git recipes' do
   end
 
   it 'git_hooks: backup existing hooks' do
+    `mkdir -p ~/go/src/github.com/testorg/testproject`
+    `pushd ~/go/src/github.com/testorg/testproject &&
+      git init &&
+      mkdir -p .git/hooks &&
+      touch .git/hooks/fake-hook &&
+      popd`
+    `touch ~/go/src/github.com/testorg/errant_file1`
+    `touch ~/workspace/errant_file2 &&
+      touch ~/go/src/github.com/errant_file3`
+
     expect(File).to exist(File.expand_path('~/workspace/hooks-test-repo/githooks/fake-hook/recovered-hook'))
+    expect(File).to exist(File.expand_path('~/go/src/github.com/testorg/testproject/githooks/fake-hook/recovered-hook'))
   end
 
   it 'git_hooks: ensures git-hooks are used for git init and git clone' do
