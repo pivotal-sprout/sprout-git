@@ -2,11 +2,7 @@ include_recipe 'sprout-git::git_hooks'
 
 git_hooks_global_dir = node['sprout']['git']['git_hooks']['global_dir']
 
-if node['platform'] == 'mac_os_x'
-  package 'git-secrets'
-else
-  log 'Should install git-secrets for linux, but not implemented...'
-end
+package 'git-secrets'
 
 execute 'git secrets --register-aws --global' do
   returns [0, 1]
