@@ -8,6 +8,34 @@ execute 'git secrets --register-aws --global' do
   returns [0, 1]
 end
 
+execute "git config --global -l | grep 'secrets\.' >~/.git-secrets-patterns.bak"
+execute 'git config --global --remove-section secrets'
+
+execute 'git secrets --add --global "AKIA[A-Z0-9]{16}"'
+
+execute [
+  'git secrets --add --global ',
+  %q("(\"|')?(AWS|aws|Aws)?_?(SECRET|secret|Secret)?_?(ACCESS|access|Access)?_?(KEY|key|Key)),
+  %q((\"|')?\\s*(:|=>|=)\\s*(\"|')?[A-Za-z0-9/\\+=]{40}(\"|')?")
+].join('')
+
+execute [
+  'git secrets --add --global ',
+  %q("(\"|')?(AWS|aws|Aws)?_?(ACCOUNT|account|Account)_?(ID|id|Id)?),
+  %q((\"|')?\\s*(:|=>|=)\\s*(\"|')?[0-9]{4}\\-?[0-9]{4}\\-?[0-9]{4}(\"|')?")
+].join('')
+
+execute [
+  'git secrets --add --global ',
+  %q("(\"|')*[A-Za-z0-9_-]*),
+  '([sS]ecret|[pP]rivate[-_]?[Kk]ey|[Pp]assword|[sS]alt|SECRET|PRIVATE[-_]?KEY|PASSWORD|SALT)',
+  %q([\"']*\\s*(=|:|\\s|:=|=>)\\s*[\"'][A-Za-z0-9.$+=&\\/_\\\\\\-]{12,}(\"|')")
+].join('')
+
+execute 'git secrets --add --allowed --global "[\"]\\\\$"'
+execute 'git secrets --add --allowed --global "[fF][aA][kK][eE]"'
+execute 'git secrets --add --allowed --global "[eE][xX][aA][mM][pP][lL][eE]"'
+
 hooks = [
   'pre-commit',
   'commit-msg',

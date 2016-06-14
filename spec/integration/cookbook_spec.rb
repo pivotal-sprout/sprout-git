@@ -155,6 +155,18 @@ describe 'sprout-git recipes' do
     end
   end
 
+  it 'git_secrets: configures git-secrets' do
+    Dir.chdir(File.dirname(__FILE__)) do
+      pattern_test_file = './git-secrets-pattern-tests.txt'
+      expected_match_count = File.open(pattern_test_file).grep(/should_match/).length
+      match_count = `git secrets --scan #{pattern_test_file} | grep -c should_match`.chomp.to_i
+      false_positive_count = `git secrets --scan #{pattern_test_file} | grep -c should_not_match`.chomp.to_i
+
+      expect(match_count).to eq(expected_match_count)
+      expect(false_positive_count).to eq(0)
+    end
+  end
+
   it 'git_secrets: installs git-secrets hooks for all users' do
     expect(File).to exist('/usr/local/share/githooks/pre-commit/00-git-secrets')
     expect(File).to exist('/usr/local/share/githooks/commit-msg/00-git-secrets')
