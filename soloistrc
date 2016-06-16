@@ -3,6 +3,7 @@ recipes:
   - sprout-git::default_editor
   - sprout-git::git_duet
   - sprout-git::projects
+  - sprout-git::git_secrets
 
 node_attributes:
   sprout:
