@@ -35,12 +35,12 @@ sprout_git_config 'hooks.global' do
 end
 
 sprout_git_post_commit_hook 'installing git post-commit hook ~/workspace/*' do
-  git_repo_dirs Dir.glob(File.join(node['sprout']['home'], 'workspace', '*/'))
+  git_repo_dirs lazy { Dir.glob(File.join(node['sprout']['home'], 'workspace', '*/')) }
   owner node['sprout']['user']
 end
 
 sprout_git_post_commit_hook 'installing git post-commit hook ~/go/src/github.com/*/*' do
-  git_repo_dirs Dir.glob(File.join(node['sprout']['home'], 'go', 'src', 'github.com', '*', '*/'))
+  git_repo_dirs lazy { Dir.glob(File.join(node['sprout']['home'], 'go', 'src', 'github.com', '*', '*/')) }
   owner node['sprout']['user']
 end
 
