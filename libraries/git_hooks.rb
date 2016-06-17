@@ -2,8 +2,8 @@ class Chef
   class Recipe
     # methods to help install git-hooks, which allows more than one git-hook
     # only class methods, not instance methods, as no objects are being created
-    class PostCommitHook
-      def self.install_post_commit_hook(git_repo_dirs, owner)
+    class GitHooks
+      def self.install(git_repo_dirs, owner)
         git_repo_dirs.each do |git_repo_dir|
           Dir.chdir(git_repo_dir) do
             check_and_install_git_hooks(owner)

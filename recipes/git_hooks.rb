@@ -34,12 +34,12 @@ sprout_git_config 'hooks.global' do
   scope :system # https://github.com/git-hooks/git-hooks only looks in `--system`
 end
 
-sprout_git_post_commit_hook 'installing git post-commit hook ~/workspace/*' do
+sprout_git_install_git_hooks 'installing git hooks ~/workspace/*' do
   git_repo_dirs Dir.glob(File.join(node['sprout']['home'], 'workspace', '*/'))
   owner node['sprout']['user']
 end
 
-sprout_git_post_commit_hook 'installing git post-commit hook ~/go/src/github.com/*/*' do
+sprout_git_install_git_hooks 'installing git hooks ~/go/src/github.com/*/*' do
   git_repo_dirs Dir.glob(File.join(node['sprout']['home'], 'go', 'src', 'github.com', '*', '*/'))
   owner node['sprout']['user']
 end
