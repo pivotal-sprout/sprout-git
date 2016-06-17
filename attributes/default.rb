@@ -13,8 +13,7 @@ node.default['sprout']['git']['base_aliases'] = [
   [
     'lg',
     [
-      '"', # open quotes around alias
-      'log',
+      '"log', # open quotes around alias. Included here to avoid a space at the beginning of a line, that breaks git
       '--graph',
       "--pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'",
       '--abbrev-commit',
