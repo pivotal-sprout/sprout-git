@@ -1,6 +1,14 @@
 node.default['sprout']['git']['aliases'] = [
   # a space delimited string containing the alias-name and alias-value
 ]
+
+lg_alias = [
+  'log',
+  '--graph',
+  '--abbrev-commit',
+  "--pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'"
+].join(' ')
+
 node.default['sprout']['git']['base_aliases'] = [
   'st status',
   'di diff',
@@ -10,17 +18,7 @@ node.default['sprout']['git']['base_aliases'] = [
   'sta stash',
   'llog "log --date=local"',
   'flog "log --pretty=fuller --decorate"',
-  [
-    'lg',
-    [
-      '"', # open quotes around alias
-      'log',
-      '--graph',
-      "--pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'",
-      '--abbrev-commit',
-      '"' # close quotes around the alias
-    ]
-  ].flatten.join(' '),
+  "lg \"#{lg_alias}\"",
   'lol "log --graph --decorate --oneline"',
   'lola "log --graph --decorate --oneline --all"',
   'blog "log origin/master... --left-right"',
