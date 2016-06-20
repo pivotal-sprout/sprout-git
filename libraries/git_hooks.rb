@@ -54,7 +54,7 @@ class Chef
         get_unapplied_hook_files(git_dir).each do |hook|
           hook_dir = ::File.join(::File.dirname(git_file), 'githooks', ::File.basename(hook))
           FileUtils.mkdir_p(hook_dir)
-          FileUtils.chown_r(hook_dir)
+          FileUtils.chown_R(hook_dir)
           dest = ::File.join(hook_dir, 'recovered-hook')
 
           Chef::Log.info("Copying hooks from #{hook} to #{dest}")
