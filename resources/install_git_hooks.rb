@@ -1,13 +1,13 @@
-property :git_repo_dirs, Array
+property :search_dir, Array, name_attribute: true
 
-property :owner, String, default: node['sprout']['user']
+property :user, String, default: node['sprout']['user']
 
 default_action :create
 
 action :create do
   ruby_block 'installing git repo hooks' do
     block do
-      Recipe::GitHooks.install(git_repo_dirs, owner)
+      Recipe::GitHooks.new(user).install(search_dir)
     end
   end
 end
