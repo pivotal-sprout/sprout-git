@@ -1,4 +1,4 @@
-property :search_dir, Array, name_attribute: true
+property :search_dir, String, name_attribute: true
 
 property :user, String, default: node['sprout']['user']
 
