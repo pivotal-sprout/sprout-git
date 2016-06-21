@@ -3,8 +3,9 @@ class Chef
     # methods to help install git-hooks, which allows more than one git-hook
     # only class methods, not instance methods, as no objects are being created
     class GitHooks
-      def initialize(user)
+      def initialize(user, group)
         @user = user
+        @group = group
       end
 
       def install(search_dir)
@@ -54,7 +55,7 @@ class Chef
         get_unapplied_hook_files(git_dir).each do |hook|
           hook_dir = ::File.join(::File.dirname(git_file), 'githooks', ::File.basename(hook))
           FileUtils.mkdir_p(hook_dir)
-          FileUtils.chown_R(hook_dir, @user)
+          FileUtils.chown_R(@user, @group, hook_dir)
           dest = ::File.join(hook_dir, 'recovered-hook')
 
           Chef::Log.info("Copying hooks from #{hook} to #{dest}")
