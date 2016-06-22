@@ -59,6 +59,7 @@ class Chef
 
           Chef::Log.info("Copying hooks from #{hook} to #{dest}")
           FileUtils.cp(hook, dest)
+          FileUtils.chown(@user, nil, dest)
         end
       end
 
