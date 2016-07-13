@@ -51,6 +51,6 @@ node['sprout']['git']['git_hooks']['hooks'].each do |hook_name|
   template "#{git_hooks_global_templates_dir}/hooks/#{hook_name}" do
     source 'git_hook.erb'
     owner node['sprout']['user']
-    mode 0755
+    mode '0755'
   end
 end
