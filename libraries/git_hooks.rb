@@ -25,11 +25,13 @@ class Chef
       end
 
       def check_and_install_git_hooks(git_file)
-        git_dir = find_git_dir(git_file)
+        ::Dir.chdir(::File.dirname(git_file)) do
+          git_dir = find_git_dir(git_file)
 
-        unless ::Dir.exist?(::File.join(git_dir, 'hooks.old'))
-          copy_recovered_hooks git_file, git_dir
-          install_git_hooks git_file
+          unless ::Dir.exist?(::File.join(git_dir, 'hooks.old'))
+            copy_recovered_hooks git_file, git_dir
+            install_git_hooks git_file
+          end
         end
       end
 
