@@ -1,56 +1,28 @@
-git_hooks_file_tgz = '/usr/local/bin/git-hooks.tgz'
-git_hooks_file = '/usr/local/bin/git-hooks'
-git_hooks_uri = 'https://github.com/git-hooks/git-hooks/releases/download/v1.1.3/git-hooks_darwin_amd64.tar.gz'
-git_hooks_global_dir = node['sprout']['git']['git_hooks']['global_dir']
-git_hooks_global_templates_dir = '/usr/local/share/githooks-templatedir'
+Chef::Log.warn(<<-EOF)
+The sprout-git::git_hooks recipe is now DEPRECATED!
 
-# Downloading & installing git-hooks is 3 resources to placate foodcritic's FC041
-remote_file git_hooks_file_tgz do
-  source git_hooks_uri
-  not_if { File.exist?(git_hooks_file_tgz) }
-end
+Git 2.9 added new configuration options that made the configuration of hooks far
+simpler. This is now the recommended way to add git hooks. At the same time we
+have made our own credential scanner which we are going to distribute separately
+from sprout-git.
 
-execute 'install git-hooks' do
-  command "tar -xf #{git_hooks_file_tgz} -O > #{git_hooks_file}"
-  not_if { File.exist?(git_hooks_file) }
-end
+The new configuration options are used in the new sprout-git::git_hooks_core
+recipe. It provides a more opinionated but far less complex method of installing
+system-wide git hooks.
 
-file git_hooks_file_tgz do
-  action :delete
-end
+You can remove the existing git hooks by deleting the following directories.
+Make sure that you have backed up any custom hooks that you would like to keep!
 
-file git_hooks_file do
-  mode '0755'
-  owner node['sprout']['user']
-end
+* /usr/local/share/githooks
+* $HOME/.githooks
+* [YOUR_PROJECTS...]/githooks
 
-directory git_hooks_global_dir do
-  mode '0755'
-  owner node['sprout']['user']
-end
+Or, if you trust us, (please review the script for safety anyway) you can run
+the script linked below which will remove the default hooks that were added and
+warn about any custom hooks that should be backed up and migrated.
 
-sprout_git_config 'hooks.global' do
-  setting_value git_hooks_global_dir
-  scope :system # https://github.com/git-hooks/git-hooks only looks in `--system`
-end
+  https://github.com/pivotal-sprout/sprout-git/blob/master/share/remove_git_hooks.sh
 
-sprout_git_install_git_hooks ::File.join(node['sprout']['home'], 'go', 'src')
-sprout_git_install_git_hooks ::File.join(node['sprout']['home'], 'workspace')
-
-directory '/usr/local/share/githooks-templatedir/hooks' do
-  mode '0755'
-  recursive true
-  owner node['sprout']['user']
-end
-
-sprout_git_config 'init.templatedir' do
-  setting_value git_hooks_global_templates_dir
-end
-
-node['sprout']['git']['git_hooks']['hooks'].each do |hook_name|
-  template "#{git_hooks_global_templates_dir}/hooks/#{hook_name}" do
-    source 'git_hook.erb'
-    owner node['sprout']['user']
-    mode '0755'
-  end
-end
+We're sorry for any inconvenience but we hope you'll like the far simpler new
+approach.
+EOF

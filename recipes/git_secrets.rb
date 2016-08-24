@@ -1,56 +1,28 @@
-include_recipe 'sprout-git::git_hooks'
+Chef::Log.warn(<<-EOF)
+The sprout-git::git_secrets recipe is now DEPRECATED!
 
-git_hooks_global_dir = node['sprout']['git']['git_hooks']['global_dir']
+Git 2.9 added new configuration options that made the configuration of hooks far
+simpler. This is now the recommended way to add git hooks. At the same time we
+have made our own credential scanner which we are going to distribute separately
+from sprout-git.
 
-package 'git-secrets'
+The new configuration options are used in the new sprout-git::git_hooks_core
+recipe. It provides a more opinionated but far less complex method of installing
+system-wide git hooks.
 
-execute 'git secrets --register-aws --global' do
-  returns [0, 1]
-end
+You can remove the existing git hooks by deleting the following directories.
+Make sure that you have backed up any custom hooks that you would like to keep!
 
-execute "git config --global -l | grep 'secrets\.' >~/.git-secrets-patterns.bak"
-execute 'git config --global --remove-section secrets'
+* /usr/local/share/githooks
+* $HOME/.githooks
+* [YOUR_PROJECTS...]/githooks
 
-execute 'git secrets --add --global "AKIA[A-Z0-9]{16}"'
+Or, if you trust us, (please review the script for safety anyway) you can run
+the script linked below which will remove the default hooks that were added and
+warn about any custom hooks that should be backed up and migrated.
 
-execute [
-  'git secrets --add --global ',
-  %q("(\"|')?(AWS|aws|Aws)?_?(SECRET|secret|Secret)?_?(ACCESS|access|Access)?_?(KEY|key|Key)),
-  %q((\"|')?\\s*(:|=>|=)\\s*(\"|')?[A-Za-z0-9/\\+=]{40}(\"|')?")
-].join('')
+  https://github.com/pivotal-sprout/sprout-git/blob/master/share/remove_git_hooks.sh
 
-execute [
-  'git secrets --add --global ',
-  %q("(\"|')?(AWS|aws|Aws)?_?(ACCOUNT|account|Account)_?(ID|id|Id)?),
-  %q((\"|')?\\s*(:|=>|=)\\s*(\"|')?[0-9]{4}\\-?[0-9]{4}\\-?[0-9]{4}(\"|')?")
-].join('')
-
-execute [
-  'git secrets --add --global ',
-  %q("(\"|')*[A-Za-z0-9_-]*),
-  '([sS]ecret|[pP]rivate[-_]?[Kk]ey|[Pp]assword|[sS]alt|SECRET|PRIVATE[-_]?KEY|PASSWORD|SALT)',
-  %q([\"']*\\s*(=|:|\\s|:=|=>)\\s*[\"'][A-Za-z0-9.$+=&\\/_\\\\\\-]{12,}(\"|')")
-].join('')
-
-execute 'git secrets --add --allowed --global "[\"]\\\\$"'
-execute 'git secrets --add --allowed --global "[fF][aA][kK][eE]"'
-execute 'git secrets --add --allowed --global "[eE][xX][aA][mM][pP][lL][eE]"'
-
-hooks = [
-  'pre-commit',
-  'commit-msg',
-  'prepare-commit-msg'
-]
-
-hooks.each do |hook|
-  directory "#{git_hooks_global_dir}/#{hook}" do
-    mode '0755'
-    owner node['sprout']['user']
-  end
-  template "#{git_hooks_global_dir}/#{hook}/00-git-secrets" do
-    mode '0755'
-    owner node['sprout']['user']
-    source '00-git-secrets.erb'
-    variables hook_name: "#{hook.tr('-', '_')}_hook"
-  end
-end
+We're sorry for any inconvenience but we hope you'll like the far simpler new
+approach.
+EOF
