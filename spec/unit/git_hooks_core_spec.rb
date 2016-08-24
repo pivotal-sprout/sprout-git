@@ -6,6 +6,7 @@ RSpec.describe 'sprout-git::git_hooks_core' do
 
   before do
     stub_command('which git').and_return(true)
+    runner.node.set['sprout']['git']['hooks']['repository'] = 'https://git.example.com'
 
     runner.converge(described_recipe)
   end
@@ -28,7 +29,7 @@ RSpec.describe 'sprout-git::git_hooks_core' do
 
   it 'clones hooks into the hooks dir' do
     expect(runner).to sync_git(hooks_dir).with(
-      repository: 'https://github.com/pivotal-cf-experimental/git-hooks-core',
+      repository: 'https://git.example.com',
       revision: 'master',
       user: runner.node['sprout']['user'],
       group: runner.node['sprout']['group'],
