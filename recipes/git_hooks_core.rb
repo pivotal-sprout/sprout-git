@@ -1,4 +1,3 @@
-include_recipe 'sprout-git::cred_alert'
 include_recipe 'sprout-git::install'
 
 git_hooks_dir = node['sprout']['git']['hooks']['dir']

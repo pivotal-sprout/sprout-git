@@ -11,10 +11,6 @@ RSpec.describe 'sprout-git::git_hooks_core' do
     runner.converge(described_recipe)
   end
 
-  it 'includes sprout-git::cred-alert' do
-    expect(runner).to include_recipe('sprout-git::cred_alert')
-  end
-
   it 'includes sprout-git::install' do
     expect(runner).to include_recipe('sprout-git::install')
   end
