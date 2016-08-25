@@ -7,7 +7,7 @@ group :development do
   gem 'rake', require: false
   gem 'rspec', require: false
   gem 'rubocop', require: false
-  gem 'chefspec', require: false
+  gem 'chefspec', '< 5.0.0', require: false # >=5.0.0 requires ruby v2.1
 end
 
 # Temporarily lock these gems. Newer versions depend on Ruby >= 2.1.0
