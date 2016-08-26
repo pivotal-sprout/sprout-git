@@ -19,7 +19,7 @@ RSpec.describe 'sprout-git::git_hooks_core' do
     expect(runner).to create_directory(File.dirname(hooks_dir)).with(
       owner: runner.node['sprout']['user'],
       group: runner.node['sprout']['group'],
-      mode: '0755',
+      mode: '0755'
     )
   end
 
@@ -28,13 +28,13 @@ RSpec.describe 'sprout-git::git_hooks_core' do
       repository: 'https://git.example.com',
       revision: 'master',
       user: runner.node['sprout']['user'],
-      group: runner.node['sprout']['group'],
+      group: runner.node['sprout']['group']
     )
   end
 
   it 'sets the git hooks directory to be the hooks dir' do
     expect(runner).to create_sprout_git_global_resource('core.hooksPath').with(
-      setting_value: hooks_dir,
+      setting_value: hooks_dir
     )
   end
 end
