@@ -82,7 +82,7 @@ check_and_remove_project_local_hooks() {
         fi
 
         sha=$(shasum "${hook}" | cut -f1 -d' ')
-        if [ "${sha}" = "2725e8727e7afb311fe042780f21859e6b068c08" ] || [ "${sha}" = "f2b7b7578618d3ded08df1164437e7b8b8e3a736" ]; then
+        if [ "${sha}" = "ba388887197fb3c289258eb12d0743551c878201" ] || [ "${sha}" = "2725e8727e7afb311fe042780f21859e6b068c08" ] || [ "${sha}" = "f2b7b7578618d3ded08df1164437e7b8b8e3a736" ]; then
           delete "$hook"
         else
           echo "Found unexpected hook script: ${hook}!"
