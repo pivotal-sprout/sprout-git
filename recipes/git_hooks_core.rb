@@ -13,7 +13,7 @@ if hooks_repository
 
   git git_hooks_dir do
     repository hooks_repository
-    revision 'master'
+    revision node['sprout']['git']['hooks']['revision']
     user node['sprout']['user']
     group node['sprout']['group']
   end

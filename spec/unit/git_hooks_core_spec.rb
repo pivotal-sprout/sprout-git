@@ -42,39 +42,83 @@ RSpec.describe 'sprout-git::git_hooks_core' do
   context 'when hooks > repository is set' do
     before do
       runner.node.set['sprout']['git']['hooks']['repository'] = 'https://git.example.com'
-
-      runner.converge(described_recipe)
     end
 
-    it 'does not log a warning' do
-      expect(runner).not_to write_log('Error: sprout.git.hooks.repository must be set for this recipe to run.')
+    context 'with no revision' do
+      before do
+        runner.converge(described_recipe)
+      end
+
+      it 'does not log a warning' do
+        expect(runner).not_to write_log('Error: sprout.git.hooks.repository must be set for this recipe to run.')
+      end
+
+      it 'includes sprout-git::install' do
+        expect(runner).to include_recipe('sprout-git::install')
+      end
+
+      it 'creates the parent dir of the repo' do
+        expect(runner).to create_directory(File.dirname(hooks_dir)).with(
+          owner: runner.node['sprout']['user'],
+          group: runner.node['sprout']['group'],
+          mode: '0755'
+        )
+      end
+
+      it 'sets the git hooks directory to be the hooks dir' do
+        expect(runner).to create_sprout_git_global_resource('core.hooksPath').with(
+          setting_value: hooks_dir
+        )
+      end
+
+      it 'clones master' do
+        expect(runner).to sync_git(hooks_dir).with(
+          repository: 'https://git.example.com',
+          revision: 'master',
+          user: runner.node['sprout']['user'],
+          group: runner.node['sprout']['group']
+        )
+      end
     end
 
-    it 'includes sprout-git::install' do
-      expect(runner).to include_recipe('sprout-git::install')
-    end
+    context 'with a revision' do
+      before do
+        runner.node.set['sprout']['git']['hooks']['repository'] = 'https://git.example.com'
+        runner.node.set['sprout']['git']['hooks']['revision'] = 'example-branch'
 
-    it 'creates the parent dir of the repo' do
-      expect(runner).to create_directory(File.dirname(hooks_dir)).with(
-        owner: runner.node['sprout']['user'],
-        group: runner.node['sprout']['group'],
-        mode: '0755'
-      )
-    end
+        runner.converge(described_recipe)
+      end
 
-    it 'clones hooks into the hooks dir' do
-      expect(runner).to sync_git(hooks_dir).with(
-        repository: 'https://git.example.com',
-        revision: 'master',
-        user: runner.node['sprout']['user'],
-        group: runner.node['sprout']['group']
-      )
-    end
+      it 'does not log a warning' do
+        expect(runner).not_to write_log('Error: sprout.git.hooks.repository must be set for this recipe to run.')
+      end
 
-    it 'sets the git hooks directory to be the hooks dir' do
-      expect(runner).to create_sprout_git_global_resource('core.hooksPath').with(
-        setting_value: hooks_dir
-      )
+      it 'includes sprout-git::install' do
+        expect(runner).to include_recipe('sprout-git::install')
+      end
+
+      it 'creates the parent dir of the repo' do
+        expect(runner).to create_directory(File.dirname(hooks_dir)).with(
+          owner: runner.node['sprout']['user'],
+          group: runner.node['sprout']['group'],
+          mode: '0755'
+        )
+      end
+
+      it 'sets the git hooks directory to be the hooks dir' do
+        expect(runner).to create_sprout_git_global_resource('core.hooksPath').with(
+          setting_value: hooks_dir
+        )
+      end
+
+      it 'clones what it was told to' do
+        expect(runner).to sync_git(hooks_dir).with(
+          repository: 'https://git.example.com',
+          revision: 'example-branch',
+          user: runner.node['sprout']['user'],
+          group: runner.node['sprout']['group']
+        )
+      end
     end
   end
 end
