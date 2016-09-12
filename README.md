@@ -163,7 +163,7 @@ If the project needs to have submodules initialized then those entries should in
 * `sprout-git::git_duet_rotate_authors` &mdash; installs a custom bash_it plugin that causes git-duet to rotate which author is the committer ; _**note:** this is not in the default recipe_
 * `sprout-git::git_scripts` &mdash; installs pivotal [git_scripts] onto to the system using system ruby.  Also installs/overwrites the ~/.pairs file. ; _**note:** this is not in the default recipe_
 * `sprout-git::global_config` &mdash; adds global git configurations defined by the `sprout => git => global_config` node attributes
-* `sprout-git::global_ignore` &mdash; adds basic global git ignore file
+* `sprout-git::global_ignore` &mdash; adds basic global git ignore file. `node.git_global_ignore_idea`, which is used to determine if .idea files should be ignored, has been flipped from the original behavior in effort to be more intuitive. 
 * `sprout-git::install` &mdash; install git using [homebrew](http://brew.sh)
 * `sprout-git::projects` &mdash; clones all projects defined byt the `sprout => git => projects` node attribute ; _**note:** this is not in the default recipe_
 
