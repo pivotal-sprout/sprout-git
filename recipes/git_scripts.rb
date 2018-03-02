@@ -1,14 +1,15 @@
 include_recipe 'sprout-base::user_owns_usr_local'
 
-tarball_url = 'https://github.com/pivotal/git_scripts/tarball/master'
-src_path = File.join(Chef::Config['file_cache_path'], 'git_scripts.tgz')
-extract_path = '/usr/local/bin'
+checkout_path = "#{Chef::Config['file_cache_path']}/git_scripts"
+installation_path = '/usr/local/bin'
 
-remote_file src_path do
-  source tarball_url
+git checkout_path do
+  repository 'https://github.com/pivotal/git_scripts.git'
+  reference 'master'
+  action :export
 end
 
-execute "tar --strip=2 -xzf #{src_path} -C #{extract_path}" do
+execute "cp #{checkout_path}/bin/* #{installation_path}" do
   user node['sprout']['user']
   not_if 'which git-pair'
 end

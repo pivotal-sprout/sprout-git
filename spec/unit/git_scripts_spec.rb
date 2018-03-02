@@ -3,9 +3,10 @@ require 'unit/spec_helper'
 describe 'sprout-git::git_scripts' do
   let(:chef_run) { ChefSpec::SoloRunner.new }
   let(:which_pair) { nil }
-  let(:untar_command) do
-    'tar --strip=2 -xzf /var/chef/cache/git_scripts.tgz -C /usr/local/bin'
+  let(:copy_command) do
+    'cp /var/chef/cache/git_scripts/bin/* /usr/local/bin'
   end
+
   before { stub_command('which git-pair').and_return(which_pair) }
 
   it 'includes sprout-base::user_owns_usr_local' do
@@ -13,16 +14,14 @@ describe 'sprout-git::git_scripts' do
     expect(chef_run).to include_recipe('sprout-base::user_owns_usr_local')
   end
 
-  it 'downloads git_scripts as a tarball' do
+  it 'downloads git_scripts from Github' do
     chef_run.converge(described_recipe)
-    expect(chef_run).to create_remote_file('/var/chef/cache/git_scripts.tgz').with(
-      source: 'https://github.com/pivotal/git_scripts/tarball/master'
-    )
+    expect(chef_run).to export_git('/var/chef/cache/git_scripts').with(repository: 'https://github.com/pivotal/git_scripts.git')
   end
 
   it 'installs git_scripts' do
     chef_run.converge(described_recipe)
-    expect(chef_run).to run_execute(untar_command).with(user: 'fauxhai')
+    expect(chef_run).to run_execute(copy_command).with(user: 'fauxhai')
   end
 
   context 'when the git scripts have previously been installed' do
@@ -30,7 +29,7 @@ describe 'sprout-git::git_scripts' do
 
     it 'does not install the git scripts' do
       chef_run.converge(described_recipe)
-      expect(chef_run).to_not run_execute(untar_command)
+      expect(chef_run).to_not run_execute(copy_command)
     end
   end
 
