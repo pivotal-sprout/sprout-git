@@ -9,6 +9,11 @@ git checkout_path do
   action :export
 end
 
+execute "cp -R #{checkout_path}/lib/* #{installation_path}" do
+  user node['sprout']['user']
+  not_if 'which git-pair'
+end
+
 execute "cp #{checkout_path}/bin/* #{installation_path}" do
   user node['sprout']['user']
   not_if 'which git-pair'
