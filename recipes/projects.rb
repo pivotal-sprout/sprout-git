@@ -1,9 +1,12 @@
+# frozen_string_literal: true
+
 # Recipe to clone git repositories into the users workspace_directory
 # look at soloistrc for example
 
 include_recipe 'sprout-base::workspace_directory'
 
 settings_hash = node['sprout']['git']['projects_settings']
+# rubocop:disable Metrics/BlockLength
 node['sprout']['git']['projects'].each do |project_hash|
   if project_hash['url']
     repo_address = project_hash['url']
@@ -68,3 +71,4 @@ node['sprout']['git']['projects'].each do |project_hash|
     end
   end
 end
+# rubocop:enable Metrics/BlockLength

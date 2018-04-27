@@ -1,10 +1,13 @@
+# frozen_string_literal: true
+
 require 'unit/spec_helper'
 
-describe 'sprout-git::projects' do
+# rubocop:disable Metrics/BlockLength
+RSpec.describe 'sprout-git::projects' do
   let(:chef_run) { ChefSpec::SoloRunner.new }
   let(:repo_base_url) { 'http://example.com/some/repo' }
   before do
-    chef_run.node.set['workspace_directory'] = 'some_workspace'
+    chef_run.node.override['workspace_directory'] = 'some_workspace'
   end
 
   it 'includes sprout-base::workspace_directory' do
@@ -13,7 +16,7 @@ describe 'sprout-git::projects' do
   end
 
   it 'can clone projects with only the url specified' do
-    chef_run.node.set['sprout']['git']['projects'] = [
+    chef_run.node.override['sprout']['git']['projects'] = [
       { 'url' => "#{repo_base_url}1.git" },
       { 'url' => "#{repo_base_url}2" }
     ]
@@ -29,7 +32,7 @@ describe 'sprout-git::projects' do
   end
 
   it 'can clone projects with a custom name if specified' do
-    chef_run.node.set['sprout']['git']['projects'] = [
+    chef_run.node.override['sprout']['git']['projects'] = [
       {
         'url' => "#{repo_base_url}1.git",
         'name' => 'custom'
@@ -43,7 +46,7 @@ describe 'sprout-git::projects' do
   end
 
   it 'can clone from github using github key instead of url' do
-    chef_run.node.set['sprout']['git']['projects'] = [
+    chef_run.node.override['sprout']['git']['projects'] = [
       { 'github' => 'foo/bar' },
       { 'github' => 'baz/bat', 'name' => 'my_bat', 'branch' => 'other' }
     ]
@@ -59,7 +62,7 @@ describe 'sprout-git::projects' do
   end
 
   it 'can clone using --recursive per project' do
-    chef_run.node.set['sprout']['git']['projects'] = [
+    chef_run.node.override['sprout']['git']['projects'] = [
       { 'github' => 'foo/bar', 'recursive' => true },
       { 'github' => 'baz/bat', 'recursive' => true, 'name' => 'my_bat', 'branch' => 'other' }
     ]
@@ -75,8 +78,8 @@ describe 'sprout-git::projects' do
   end
 
   it 'can clone using --recursive for all projectcs' do
-    chef_run.node.set['sprout']['git']['projects_settings'] = { 'recursive' => true }
-    chef_run.node.set['sprout']['git']['projects'] = [
+    chef_run.node.override['sprout']['git']['projects_settings'] = { 'recursive' => true }
+    chef_run.node.override['sprout']['git']['projects'] = [
       { 'github' => 'foo/bar' },
       { 'github' => 'quick/quack', 'recursive' => false },
       { 'github' => 'baz/bat', 'name' => 'my_bat', 'branch' => 'other' }
@@ -97,7 +100,7 @@ describe 'sprout-git::projects' do
   end
 
   it 'can clone custom branch of project if specified' do
-    chef_run.node.set['sprout']['git']['projects'] = [
+    chef_run.node.override['sprout']['git']['projects'] = [
       {
         'url' => "#{repo_base_url}1.git",
         'branch' => 'develop'
@@ -111,7 +114,7 @@ describe 'sprout-git::projects' do
   end
 
   it 'can clone projects into an absolute custom directory' do
-    chef_run.node.set['sprout']['git']['projects'] = [
+    chef_run.node.override['sprout']['git']['projects'] = [
       {
         'url' => "#{repo_base_url}1.git",
         'workspace_path' => '/some/non-home-based/workspace'
@@ -125,7 +128,7 @@ describe 'sprout-git::projects' do
   end
 
   it 'can clone projects into a relative custom directory' do
-    chef_run.node.set['sprout']['git']['projects'] = [
+    chef_run.node.override['sprout']['git']['projects'] = [
       {
         'url' => "#{repo_base_url}1.git",
         'workspace_path' => '~/personal_projects'
@@ -142,7 +145,7 @@ describe 'sprout-git::projects' do
   end
 
   it 'does not clone the repo if it already exists' do
-    chef_run.node.set['sprout']['git']['projects'] = [
+    chef_run.node.override['sprout']['git']['projects'] = [
       { 'url' => "#{repo_base_url}1.git" },
       { 'url' => "#{repo_base_url}2" }
     ]
@@ -154,7 +157,7 @@ describe 'sprout-git::projects' do
   end
 
   it 'creates the workspace if it is missing' do
-    chef_run.node.set['sprout']['git']['projects'] = [
+    chef_run.node.override['sprout']['git']['projects'] = [
       { 'url' => "#{repo_base_url}1.git" },
       {
         'url' => "#{repo_base_url}3.git",
@@ -174,7 +177,7 @@ describe 'sprout-git::projects' do
   end
 
   it 'execute post-clone commands' do
-    chef_run.node.set['sprout']['git']['projects'] = [
+    chef_run.node.override['sprout']['git']['projects'] = [
       {
         'url' => "#{repo_base_url}1.git",
         'post_clone_commands' => [
@@ -204,7 +207,7 @@ describe 'sprout-git::projects' do
   end
 
   it 'can update projects that were previously checked out' do
-    chef_run.node.set['sprout']['git']['projects'] = [
+    chef_run.node.override['sprout']['git']['projects'] = [
       {
         'url' => "#{repo_base_url}1.git",
         'update' => true
@@ -221,3 +224,4 @@ describe 'sprout-git::projects' do
     )
   end
 end
+# rubocop:enable Metrics/BlockLength

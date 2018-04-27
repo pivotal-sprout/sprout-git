@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require 'unit/spec_helper'
 
-describe 'sprout-git::default_editor' do
+RSpec.describe 'sprout-git::default_editor' do
   let(:chef_run) { ChefSpec::SoloRunner.new }
 
   it 'includes sprout-base::bash_it' do

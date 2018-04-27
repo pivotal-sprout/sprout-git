@@ -1,13 +1,16 @@
+# frozen_string_literal: true
+
 require 'unit/spec_helper'
 
-describe 'sprout-git::aliases' do
+# rubocop:disable Metrics/BlockLength
+RSpec.describe 'sprout-git::aliases' do
   let(:chef_run) { ChefSpec::SoloRunner.new }
   let(:foo_missing) { true }
   let(:custom_aliases) { [] }
 
   before do
     stub_command('which git').and_return(true)
-    chef_run.node.set['sprout']['git']['base_aliases'] = ['foo "bar baz"', 'bar "baz bat"']
+    chef_run.node.override['sprout']['git']['base_aliases'] = ['foo "bar baz"', 'bar "baz bat"']
   end
 
   it 'includes the install recipe' do
@@ -22,7 +25,7 @@ describe 'sprout-git::aliases' do
 
   context 'with custom aliases defined as well' do
     before do
-      chef_run.node.set['sprout']['git']['aliases'] = ['one custom', 'other custom']
+      chef_run.node.override['sprout']['git']['aliases'] = ['one custom', 'other custom']
     end
 
     it 'installs the custom aliases as well' do
@@ -34,3 +37,4 @@ describe 'sprout-git::aliases' do
     end
   end
 end
+# rubocop:enable Metrics/BlockLength

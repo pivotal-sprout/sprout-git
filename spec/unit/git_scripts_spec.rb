@@ -1,17 +1,15 @@
+# frozen_string_literal: true
+
 require 'unit/spec_helper'
 
-describe 'sprout-git::git_scripts' do
+# rubocop:disable Metrics/BlockLength
+RSpec.describe 'sprout-git::git_scripts' do
   let(:chef_run) { ChefSpec::SoloRunner.new }
   let(:which_pair) { nil }
   let(:untar_command) do
     'tar --strip=2 -xzf /var/chef/cache/git_scripts.tgz -C /usr/local/bin'
   end
   before { stub_command('which git-pair').and_return(which_pair) }
-
-  it 'includes sprout-base::user_owns_usr_local' do
-    chef_run.converge(described_recipe)
-    expect(chef_run).to include_recipe('sprout-base::user_owns_usr_local')
-  end
 
   it 'downloads git_scripts as a tarball' do
     chef_run.converge(described_recipe)
@@ -35,15 +33,16 @@ describe 'sprout-git::git_scripts' do
   end
 
   it 'installs a template in ~/.pairs' do
-    chef_run.node.set['sprout']['git']['authors'] = [
+    chef_run.node.override['sprout']['git']['authors'] = [
       { initials: 'eg', name: 'El Gringo', email: 'gringo@custom.example.com' },
       { initials: 'hh', name: 'Hagar the Horrible' },
       { initials: 'lg', name: 'Lady Godiva', username: 'lgodiva' }
     ]
-    chef_run.node.set['sprout']['git']['domain'] = 'default.example.com'
-    chef_run.node.set['sprout']['git']['prefix'] = 'lord'
+    chef_run.node.override['sprout']['git']['domain'] = 'default.example.com'
+    chef_run.node.override['sprout']['git']['prefix'] = 'lord'
     chef_run.converge(described_recipe)
-    expected = <<-EOF
+    # rubocop:disable Layout/IndentHeredoc
+    expected_git_pairs = <<-EXPECTED_GIT_PAIRS
 pairs:
   eg: El Gringo
   hh: Hagar the Horrible
@@ -57,8 +56,9 @@ email_addresses:
   eg: gringo@custom.example.com
 
 global: true
-EOF
-    expect(chef_run).to render_file('/home/fauxhai/.pairs').with_content(/#{expected}/)
+EXPECTED_GIT_PAIRS
+    # rubocop:enable Layout/IndentHeredoc
+    expect(chef_run).to render_file('/home/fauxhai/.pairs').with_content(/#{expected_git_pairs}/)
   end
 
   it 'overwrites the pairs file if it already exists' do
@@ -67,3 +67,4 @@ EOF
     expect(chef_run).to_not create_template_if_missing('/home/fauxhai/.pairs')
   end
 end
+# rubocop:enable Metrics/BlockLength

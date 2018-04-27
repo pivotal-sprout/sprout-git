@@ -1,7 +1,9 @@
-property :setting_key, String, name_attribute: true
+# frozen_string_literal: true
+
+property :setting_key, String, name_property: true
 property :setting_value, String
 property :setting_owner, String, default: node['sprout']['user']
-property :scope, is: [:system, :global], default: :global
+property :scope, is: %i[system global], default: :global
 
 default_action :create
 

@@ -1,13 +1,15 @@
+# frozen_string_literal: true
+
 require 'rake'
 require 'foodcritic'
 require 'rspec/core/rake_task'
 require 'rubocop/rake_task'
 
 desc 'Run foodcritic && rubocop && spec:unit'
-task default: %w(foodcritic rubocop spec:unit)
+task default: %w[foodcritic rubocop spec:unit]
 
 desc 'Run default && spec:integration'
-task ci: %w(default spec:integration)
+task ci: %w[default spec:integration]
 
 FoodCritic::Rake::LintTask.new do |t|
   t.options[:fail_tags] = ['any']

@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
 require 'unit/spec_helper'
 
+# rubocop:disable Metrics/BlockLength
 RSpec.describe 'sprout-git::git_hooks_core' do
   let(:runner) { ChefSpec::SoloRunner.new }
   let(:hooks_dir) do
@@ -41,7 +44,7 @@ RSpec.describe 'sprout-git::git_hooks_core' do
 
   context 'when hooks > repository is set' do
     before do
-      runner.node.set['sprout']['git']['hooks']['repository'] = 'https://git.example.com'
+      runner.node.override['sprout']['git']['hooks']['repository'] = 'https://git.example.com'
     end
 
     context 'with no revision' do
@@ -83,8 +86,8 @@ RSpec.describe 'sprout-git::git_hooks_core' do
 
     context 'with a revision' do
       before do
-        runner.node.set['sprout']['git']['hooks']['repository'] = 'https://git.example.com'
-        runner.node.set['sprout']['git']['hooks']['revision'] = 'example-branch'
+        runner.node.override['sprout']['git']['hooks']['repository'] = 'https://git.example.com'
+        runner.node.override['sprout']['git']['hooks']['revision'] = 'example-branch'
 
         runner.converge(described_recipe)
       end
@@ -122,3 +125,4 @@ RSpec.describe 'sprout-git::git_hooks_core' do
     end
   end
 end
+# rubocop:enable Metrics/BlockLength

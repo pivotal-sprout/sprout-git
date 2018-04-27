@@ -1,7 +1,10 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 require 'yaml'
 
-describe 'sprout-git recipes' do
+# rubocop:disable Metrics/BlockLength
+RSpec.describe 'sprout-git recipes' do
   before :all do
     expect(File).not_to exist('/usr/local/bin/git-pair')
     `mkdir -p ~/workspace`
@@ -118,3 +121,4 @@ describe 'sprout-git recipes' do
     verify_cloned_project('~/workspace/old-git-repo')
   end
 end
+# rubocop:enable Metrics/BlockLength

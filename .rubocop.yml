@@ -1,4 +1,5 @@
 AllCops:
+  TargetRubyVersion: 2.3
   Include:
     - Cheffile
     - Gemfile
@@ -12,6 +13,3 @@ SpaceBeforeFirstArg:
 
 LineLength:
   Max: 120
-
-IndentHash:
-  Enabled: false
