@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 template "#{node['sprout']['home']}/.gitignore_global" do
   source 'gitignore_global.erb'
   owner node['sprout']['user']

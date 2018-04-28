@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require 'unit/spec_helper'
 
-describe 'sprout-git::default' do
+RSpec.describe 'sprout-git::default' do
   let(:runner) { ChefSpec::SoloRunner.new }
   before do
     stub_command('which git').and_return(true)

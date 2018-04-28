@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 node.default['sprout']['git']['projects_settings'] = {
   # recursive: true,
 }

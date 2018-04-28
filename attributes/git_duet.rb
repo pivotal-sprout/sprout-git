@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 node.default['sprout']['git']['git_duet'] = {
   'config' => {
     # see: https://github.com/git-duet/git-duet

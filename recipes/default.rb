@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 include_recipe 'sprout-git::install'
 include_recipe 'sprout-git::aliases'
 include_recipe 'sprout-git::global_config'

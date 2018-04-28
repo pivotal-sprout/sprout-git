@@ -1,4 +1,6 @@
-property :search_dir, String, name_attribute: true
+# frozen_string_literal: true
+
+property :search_dir, String, name_property: true
 
 property :user, String, default: node['sprout']['user']
 

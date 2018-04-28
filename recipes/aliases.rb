@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 include_recipe 'sprout-git::install'
 
 aliases = node['sprout']['git']['aliases'] + node['sprout']['git']['base_aliases']

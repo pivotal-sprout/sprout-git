@@ -1,4 +1,4 @@
-include_recipe 'sprout-base::user_owns_usr_local'
+# frozen_string_literal: true
 
 tarball_url = 'https://github.com/pivotal/git_scripts/tarball/master'
 src_path = File.join(Chef::Config['file_cache_path'], 'git_scripts.tgz')

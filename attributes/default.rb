@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 node.default['sprout']['git']['aliases'] = [
   # a space delimited string containing the alias-name and alias-value
 ]

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 node.default['sprout']['git']['prefix'] = 'pair'
 node.default['sprout']['git']['domain'] = 'example.com'
 node.default['sprout']['git']['authors'] = [

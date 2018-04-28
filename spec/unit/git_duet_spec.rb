@@ -1,6 +1,9 @@
+# frozen_string_literal: true
+
 require 'unit/spec_helper'
 
-describe 'sprout-git::git_duet' do
+# rubocop:disable Metrics/BlockLength
+RSpec.describe 'sprout-git::git_duet' do
   let(:chef_run) { ChefSpec::SoloRunner.new }
 
   before do
@@ -37,3 +40,4 @@ describe 'sprout-git::git_duet' do
     expect(chef_run).to install_package('git-duet')
   end
 end
+# rubocop:enable Metrics/BlockLength

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 include_recipe 'homebrew'
 include_recipe 'sprout-git::git_duet_global'
 include_recipe 'sprout-git::git_duet_rotate_authors'

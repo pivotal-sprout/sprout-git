@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 include_recipe 'sprout-git::install'
 
 hooks_repository = node['sprout']['git']['hooks']['repository']

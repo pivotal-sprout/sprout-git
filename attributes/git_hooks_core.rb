@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 include_attribute 'sprout-base::home'
 include_attribute 'sprout-base::workspace_directory'
 
